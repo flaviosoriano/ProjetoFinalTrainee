@@ -10,11 +10,18 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-model User{
+model Usuario{
   id Int @id @default(autoincrement())
   nome String
   email String @unique
   senha String 
   foto String?
   cargo String
+}
+
+model Artista{
+  id Int @id @default(autoincrement())
+  nome String
+  foto String?
+  num_streams Int
 }
