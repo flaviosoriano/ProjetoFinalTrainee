@@ -15,6 +15,15 @@ class MusicService {
 		});
 	}
 
+    async getMusicbyid (wantedId: number) {
+		const Music = await prisma.music.findUniqueOrThrow({
+			where:{
+				id: wantedId
+			}
+		});
+		return Music;
+	}
+
 }
 
 export default new MusicService;
