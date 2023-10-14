@@ -2,8 +2,9 @@ import prisma from '../../../../client/client';
 import {User} from '@prisma/client';
 
 class UserService{
+	
 	async createUser(body:User) {
-		const user = await prisma.user.create({
+		await prisma.user.create({
 			data: {
 				name: body.name,
 				email: body.email,
@@ -12,10 +13,10 @@ class UserService{
 				role: body.role
 			}
 		});
-		return user;
 	}
+
 	async updateUser(body:User){
-		const User = await prisma.user.update({
+		await prisma.user.update({
 			data: {
 				email: body.email,
 				name: body.name,
@@ -43,15 +44,13 @@ class UserService{
 	}
 
 	async deleteUser(wantedemail: string){
-		const user = prisma.user.delete({
+		prisma.user.delete({
 			where:{
 				email: wantedemail
 			}
 		});
-		return user;
 	}
 
 }
-	
 
 export default new UserService;
