@@ -11,7 +11,7 @@ class UserService{
 				photo: body.photo,
 				role: body.role
 			}
-		})
+		});
 		return user;
 	}
 	async updateUser(body:User){
@@ -25,7 +25,7 @@ class UserService{
 			where: {
 				id: body.id
 			}
-		})
+		});
 	}
 
 	async getUserbyemail(wantedemail: string){
@@ -33,7 +33,7 @@ class UserService{
 			where:{
 				email: wantedemail
 			},
-		})
+		});
 		return user;
 	}
 
@@ -47,7 +47,7 @@ class UserService{
 			where:{
 				email: wantedemail
 			}
-		})
+		});
 		return user;
 	}
 
