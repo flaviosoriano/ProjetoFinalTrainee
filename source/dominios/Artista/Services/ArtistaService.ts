@@ -14,6 +14,19 @@ class ArtistService {
 		return Artist;
 	}
 
+	async getArtistById(wantedId: number) {
+		const Artist = await prisma.artist.findFirst({
+			where: {
+				id: wantedId
+			}
+		});
+		return Artist;
+	}
+
+	async listArtists() {
+		const Artist = await prisma.artist.findMany();
+		return Artist;
+	}
 
 }
 
