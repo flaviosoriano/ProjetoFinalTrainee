@@ -4,14 +4,13 @@ import {Artist} from '@prisma/client';
 class ArtistService {
 
 	async create(body:Artist) {
-		const Artist = await prisma.artist.create({
+		await prisma.artist.create({
 			data: {
 				name: body.name,
 				photo: body.photo,
 				num_streams: body.num_streams
 			}
 		});
-		return Artist;
 	}
 
 	async getArtistById(wantedId: number) {
@@ -23,31 +22,30 @@ class ArtistService {
 		return Artist;
 	}
 
-	async listArtists() {
+	async getArtists() {
 		const Artist = await prisma.artist.findMany();
 		return Artist;
 	}
 
-	async updateArtist (body: Artist) {
-		const Artist = await prisma.artist.update({
+	async update(wantedId: number, body: Artist) {
+		await prisma.artist.update({
 			data: {
 				name: body.name,
-				photo: body.photo
+				photo: body.photo,
+				num_streams: body.num_streams
 			},
-			where: {
-				id: body.id
-			}
-		});
-		return Artist;
-	}
-
-	async deleteArtist (wantedId: number) {
-		const Artist = await prisma.artist.delete({
 			where: {
 				id: wantedId
 			}
 		});
-		return Artist;
+	}
+
+	async delete (wantedId: number) {
+		await prisma.artist.delete({
+			where: {
+				id: wantedId
+			}
+		});
 	}
 
 }
