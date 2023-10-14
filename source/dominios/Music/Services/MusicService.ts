@@ -24,6 +24,16 @@ class MusicService {
 		return Music;
 	}
 
+    async getMusicbyArtist (wantedArtist: Artist) {
+		const Music = await prisma.music.findMany({
+			where:{
+				artist: wantedArtist
+			}
+		});
+		return Music;
+	}
+
+	
 }
 
 export default new MusicService;
