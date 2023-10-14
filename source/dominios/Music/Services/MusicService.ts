@@ -15,7 +15,7 @@ class MusicService {
 		});
 	}
 
-    async getMusicbyid (wantedId: number) {
+	async getMusicbyid (wantedId: number) {
 		const Music = await prisma.music.findUniqueOrThrow({
 			where:{
 				id: wantedId
@@ -24,7 +24,7 @@ class MusicService {
 		return Music;
 	}
 
-    async getMusicbyArtist (wantedArtist: Artist) {
+	async getMusicbyArtist (wantedArtist: Artist) {
 		const Music = await prisma.music.findMany({
 			where:{
 				artist: wantedArtist
@@ -33,7 +33,16 @@ class MusicService {
 		return Music;
 	}
 
-	
+	async getMusicbyAlbum (wantedAlbum: string) {
+		const Music = await prisma.music.findMany({
+			where:{
+				album: wantedAlbum
+			}
+		});
+		return Music;
+	}
+
+
 }
 
 export default new MusicService;
