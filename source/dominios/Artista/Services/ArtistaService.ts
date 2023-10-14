@@ -41,6 +41,15 @@ class ArtistService {
 		return Artist;
 	}
 
+	async deleteArtist (wantedId: number) {
+		const Artist = await prisma.artist.delete({
+			where: {
+				id: wantedId
+			}
+		});
+		return Artist;
+	}
+
 }
 
 export default new ArtistService;
