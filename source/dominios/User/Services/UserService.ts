@@ -20,7 +20,8 @@ class UserService{
 				email: body.email,
 				name: body.name,
 				password: body.password,
-				photo: body.photo
+				photo: body.photo,
+				role: body.role
 			},
 			where: {
 				id: body.id
