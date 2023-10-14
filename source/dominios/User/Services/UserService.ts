@@ -1,32 +1,48 @@
 import prisma from '../../../../client/client';
-import {Usuario} from '@prisma/client';
+import {User} from '@prisma/client';
 
 class UserService{
-	async criarUsuário(body:Usuario) {
-		const usuario = await prisma.usuario.create({
+	async createUser(body:User) {
+		const user = await prisma.user.create({
 			data: {
-				nome: body.nome,
+				name: body.name,
 				email: body.email,
-				senha: body.senha,
-				foto: body.foto,
-				cargo: body.cargo
+				password: body.password,
+				photo: body.photo,
+				role: body.role
 			}
 		})
+		return user;
 	}
-	
-	async AtualizarUsuário(body:Usuario){
-		const usuario = await prisma.usuario.update({
+	async updateUser(body:User){
+		const User = await prisma.user.update({
 			data: {
 				email: body.email,
-				nome: body.nome,
-				senha: body.senha,
-				foto: body.foto
+				name: body.name,
+				password: body.password,
+				photo: body.photo
 			},
 			where: {
 				id: body.id
 			}
 		})
 	}
+
+	async getUserbyemail(wantedemail: string){
+		const user = await prisma.user.findFirst({
+			where:{
+				email: wantedemail
+			},
+		})
+		return user;
+	}
+
+	async getUsers(){
+		const user = await prisma.user.findMany();
+		return user;
+	}
+
 }
+	
 
 export default new UserService;
