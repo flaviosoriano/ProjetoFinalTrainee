@@ -43,6 +43,13 @@ class MusicService {
 	}
 
 
+	async delete (wantedId: number) {
+		prisma.music.delete({
+			where:{
+				id: wantedId
+			}
+		});
+	}
 }
 
 export default new MusicService;
