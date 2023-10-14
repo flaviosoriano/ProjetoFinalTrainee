@@ -51,10 +51,23 @@ class MusicService {
 		return Music;
 	}
 
-
 	async getMusics () {
 		const Music = await prisma.music.findMany();
 		return Music;
+	}
+
+	async update(wantedId: number, body: Music) {
+		await prisma.music.update({
+			data: {
+				name: body.name,
+				genre: body.genre,
+				album: body.album,
+				artistId: body.artistId
+			},
+			where: {
+				id: wantedId
+			}
+		});
 	}
 
 	async delete (wantedId: number) {
