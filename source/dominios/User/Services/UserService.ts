@@ -2,7 +2,7 @@ import prisma from '../../../../client/client';
 import {User} from '@prisma/client';
 
 class UserService{
-	
+
 	async createUser(body:User) {
 		await prisma.user.create({
 			data: {
@@ -51,7 +51,7 @@ class UserService{
 			}
 		});
 	}
-
+	
 }
 
 export default new UserService;
