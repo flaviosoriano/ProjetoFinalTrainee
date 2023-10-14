@@ -42,6 +42,10 @@ class MusicService {
 		return Music;
 	}
 
+	async getMusics () {
+		const Music = await prisma.music.findMany();
+		return Music;
+	}
 
 	async delete (wantedId: number) {
 		prisma.music.delete({
