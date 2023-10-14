@@ -42,6 +42,16 @@ class MusicService {
 		return Music;
 	}
 
+	async getMusicbyGenre (wantedGenre: string) {
+		const Music = await prisma.music.findMany({
+			where:{
+				genre: wantedGenre
+			}
+		});
+		return Music;
+	}
+
+
 	async getMusics () {
 		const Music = await prisma.music.findMany();
 		return Music;
