@@ -2,8 +2,8 @@ import prisma from '../../../../client/client';
 import {User} from '@prisma/client';
 
 class UserService{
-	async User(body:User) {
-		const usuario = await prisma.user.create({
+	async createUser(body:User) {
+		const user = await prisma.user.create({
 			data: {
 				name: body.name,
 				email: body.email,
@@ -12,8 +12,8 @@ class UserService{
 				role: body.role
 			}
 		})
+		return user;
 	}
-
 	async updateUser(body:User){
 		const User = await prisma.user.update({
 			data: {
@@ -27,6 +27,22 @@ class UserService{
 			}
 		})
 	}
+
+	async getUserbyemail(wantedemail: string){
+		const user = await prisma.user.findFirst({
+			where:{
+				email: wantedemail
+			},
+		})
+		return user;
+	}
+
+	async getUsers(){
+		const user = await prisma.user.findMany();
+		return user;
+	}
+
 }
+	
 
 export default new UserService;
