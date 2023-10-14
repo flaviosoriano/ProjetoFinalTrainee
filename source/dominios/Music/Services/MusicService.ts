@@ -71,7 +71,7 @@ class MusicService {
 	}
 
 	async delete (wantedId: number) {
-		prisma.music.delete({
+		await prisma.music.delete({
 			where:{
 				id: wantedId
 			}
