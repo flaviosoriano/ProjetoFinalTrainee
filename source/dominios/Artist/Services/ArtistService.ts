@@ -23,7 +23,7 @@ class ArtistService {
 		return Artist;
 	}
 
-	async listArtists() {
+	async getArtists() {
 		const Artist = await prisma.artist.findMany();
 		return Artist;
 	}
