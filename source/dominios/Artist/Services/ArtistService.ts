@@ -28,20 +28,21 @@ class ArtistService {
 		return Artist;
 	}
 
-	async updateArtist (body: Artist) {
+	async update(wantedId: number, body: Artist) {
 		const Artist = await prisma.artist.update({
 			data: {
 				name: body.name,
-				photo: body.photo
+				photo: body.photo,
+				num_streams: body.num_streams
 			},
 			where: {
-				id: body.id
+				id: wantedId
 			}
 		});
 		return Artist;
 	}
 
-	async deleteArtist (wantedId: number) {
+	async delete (wantedId: number) {
 		const Artist = await prisma.artist.delete({
 			where: {
 				id: wantedId
