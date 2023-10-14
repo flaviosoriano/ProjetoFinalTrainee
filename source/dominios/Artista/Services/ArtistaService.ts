@@ -4,7 +4,7 @@ import {Artist} from '@prisma/client';
 class ArtistService {
 
 	async create(body:Artist) {
-		const Artist = await prisma.usuario.create({
+		const Artist = await prisma.artist.create({
 			data: {
 				name: body.name,
 				photo: body.photo,
@@ -13,6 +13,7 @@ class ArtistService {
 		});
 		return Artist;
 	}
+
 
 }
 
