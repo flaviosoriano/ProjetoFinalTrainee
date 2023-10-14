@@ -1,17 +1,19 @@
 import prisma from '../../../../client/client';
-import {Artista} from '@prisma/client';
+import {Artist} from '@prisma/client';
 
-class ArtistaService {
-	async create(body:Artista) {
-		const Artista = await prisma.usuario.create({
+class ArtistService {
+
+	async create(body:Artist) {
+		const Artist = await prisma.usuario.create({
 			data: {
-				nome: body.nome,
-				foto: body.foto,
+				name: body.name,
+				photo: body.photo,
 				num_streams: body.num_streams
 			}
 		});
-		return Artista;
+		return Artist;
 	}
+
 }
 
-export default new ArtistaService;
+export default new ArtistService;
