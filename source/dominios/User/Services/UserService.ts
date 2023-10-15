@@ -4,39 +4,54 @@ import {User} from '@prisma/client';
 class UserService{
 
 	async createUser(body:User) {
-		await prisma.user.create({
-			data: {
-				name: body.name,
-				email: body.email,
-				password: body.password,
-				photo: body.photo,
-				role: body.role
-			}
-		});
+		try {
+			const user = await prisma.user.create({
+				data: {
+					name: body.name,
+					email: body.email,
+					password: body.password,
+					photo: body.photo,
+					role: body.role
+				},
+			});	
+			return(user);
+		} catch (error) {
+			console.log('Error: email is already in use by another user');
+		}
 	}
 
 	async updateUser(body:User){
-		await prisma.user.update({
-			data: {
-				email: body.email,
-				name: body.name,
-				password: body.password,
-				photo: body.photo,
-				role: body.role
-			},
-			where: {
-				id: body.id
-			}
-		});
+		try {
+			await prisma.user.update({
+				data: {
+					email: body.email,
+					name: body.name,
+					password: body.password,
+					photo: body.photo,
+					role: body.role
+				},
+				where: {
+					id: body.id
+				}
+			});
+		} catch (error) {
+			console.log('Error: user id does not exist');
+		}
 	}
 
 	async getUserbyemail(wantedemail: string){
-		const user = await prisma.user.findFirst({
-			where:{
-				email: wantedemail
-			},
-		});
-		return user;
+		try { 
+			const user = await prisma.user.findFirst({
+				where:{
+					email: wantedemail
+				},
+			});
+			return user;
+			
+		} catch (error) {
+			console.log('Error: no user found with the given email address');
+		}
+		
 	}
 
 	async getUsers(){
@@ -45,13 +60,17 @@ class UserService{
 	}
 
 	async deleteUser(wantedemail: string){
-		prisma.user.delete({
-			where:{
-				email: wantedemail
-			}
-		});
+		try {
+			const deleteduser = await prisma.user.delete({
+				where:{
+					email: wantedemail
+				}
+			});
+			return deleteduser;
+		} catch (error) {
+			console.log('Error: no user found with the given email address');
+		}
 	}
-	
 }
 
 export default new UserService;
