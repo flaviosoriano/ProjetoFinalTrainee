@@ -16,66 +16,98 @@ class MusicService {
 	}
 
 	async getMusicbyid (wantedId: number) {
-		const Music = await prisma.music.findUniqueOrThrow({
-			where:{
-				id: wantedId
-			}
-		});
-		return Music;
+		try {
+			const Music = await prisma.music.findUniqueOrThrow({
+				where:{
+					id: wantedId
+				}
+			});
+			return Music;
+			
+		} catch (error) {
+			console.log('Error: music id does not exist');
+		}
 	}
 
 	async getMusicbyArtist (wantedArtist: Artist) {
-		const Music = await prisma.music.findMany({
-			where:{
-				artist: wantedArtist
-			}
-		});
-		return Music;
+		try {
+			const Music = await prisma.music.findMany({
+				where:{
+					artist: wantedArtist
+				}
+			});
+			return Music;
+		} catch (error) {
+			console.log('Error: artist does not exist');
+		}
+		
 	}
 
 	async getMusicbyAlbum (wantedAlbum: string) {
-		const Music = await prisma.music.findMany({
-			where:{
-				album: wantedAlbum
-			}
-		});
-		return Music;
+		try {
+			const Music = await prisma.music.findMany({
+				where:{
+					album: wantedAlbum
+				}
+			});
+			return Music;
+		} catch (error) {
+			console.log('Error: album does not exist');
+		}
 	}
 
 	async getMusicbyGenre (wantedGenre: string) {
-		const Music = await prisma.music.findMany({
-			where:{
-				genre: wantedGenre
-			}
-		});
-		return Music;
+		try {
+			const Music = await prisma.music.findMany({
+				where:{
+					genre: wantedGenre
+				}
+			});
+			return Music;
+		} catch (error) {
+			console.log('Error: no music is assigned to the given genre');
+		}
 	}
 
 	async getMusics () {
-		const Music = await prisma.music.findMany();
-		return Music;
+		try {
+			const Music = await prisma.music.findMany();
+			return Music;	
+		} catch (error) {
+			console.log('Error: no music registered yet');
+		}
+
 	}
 
 	async update(wantedId: number, body: Music) {
-		await prisma.music.update({
-			data: {
-				name: body.name,
-				genre: body.genre,
-				album: body.album,
-				artistId: body.artistId
-			},
-			where: {
-				id: wantedId
-			}
-		});
+		try {
+			await prisma.music.update({
+				data: {
+					name: body.name,
+					genre: body.genre,
+					album: body.album,
+					artistId: body.artistId
+				},
+				where: {
+					id: wantedId
+				}
+			});
+		} catch (error) {
+			console.log('Error: music id does not exist');
+		}
 	}
 
 	async delete (wantedId: number) {
-		await prisma.music.delete({
-			where:{
-				id: wantedId
-			}
-		});
+		try {
+			await prisma.music.delete({
+				where:{
+					id: wantedId
+				}
+			});
+			
+		} catch (error) {
+			console.log('Error: music id does not exist');
+		}
 	}
 }
 
