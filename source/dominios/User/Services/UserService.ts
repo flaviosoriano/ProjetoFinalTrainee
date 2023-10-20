@@ -1,23 +1,19 @@
-import prisma from '../../../../client/client';
+import prisma from '../../../../config/client';
 import {User} from '@prisma/client';
 
 class UserService{
 
 	async createUser(body:User) {
-		try {
-			const user = await prisma.user.create({
-				data: {
-					name: body.name,
-					email: body.email,
-					password: body.password,
-					photo: body.photo,
-					role: body.role
-				},
-			});	
-			return(user);
-		} catch (error) {
-			console.log('Error: email is already in use by another user');
-		}
+		const user = await prisma.user.create({
+			data: {
+				name: body.name,
+				email: body.email,
+				password: body.password,
+				photo: body.photo,
+				role: body.role
+			},
+		});	
+		return(user);
 	}
 
 	async updateUser(body:User){
