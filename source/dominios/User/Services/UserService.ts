@@ -1,6 +1,7 @@
 import prisma from '../../../../config/client';
 import { ParametroInvalido } from '../../../../errors/errors';
-import {User} from '@prisma/client';
+import {Music, User} from '@prisma/client';
+import MusicController from '../../Music/Controllers/MusicController';
 
 
 class UserService{
@@ -87,6 +88,17 @@ class UserService{
 		}
 		else{
 			return deleteduser;
+		}
+	}
+
+	async AddMusic(id: number, music_name: string){
+		let user = await this.getUserbyId(id);
+		const music = MusicController.
+		if (user == null) {
+			throw new ParametroInvalido('Error: given Id is not assigned to any user');
+		}
+		if () {
+			
 		}
 	}
 }

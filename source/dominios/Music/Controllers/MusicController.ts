@@ -15,6 +15,17 @@ class MusicController{
 		}
 	}
 
+	async getMusicbyName(WantedName: string){
+		try {
+			const music = await MusicService.getMusicbyName(WantedName);
+			return music;
+		} catch (error) {
+			if(error instanceof ParametroInvalido){
+				console.log(error.message);
+			}
+		}
+	}
+
 	async getMusicbyid (wantedId: number){
 		try {
 			const music = await MusicService.getMusicbyid(wantedId);
