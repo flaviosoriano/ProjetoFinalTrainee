@@ -16,6 +16,20 @@ class MusicService {
 		});
 	}
 
+	async getMusicbyName(WantedName: string){
+		const music = await prisma.music.findFirst({
+			where:{
+				name: WantedName
+			},
+		});
+		if (music == null) {
+			throw new ParametroInvalido('Error: music does not exist');
+		}
+		else{
+			return music;
+		}
+	}
+
 	async getMusicbyid (wantedId: number) {
 		const Music = await prisma.music.findUniqueOrThrow({
 			where:{
