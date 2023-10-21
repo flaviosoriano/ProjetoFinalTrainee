@@ -18,6 +18,7 @@ app.use(express.urlencoded({
 	extended: true
 }));
 app.use('/api/users', UserRouter);
+app.use('/api/artists', ArtistRouter);
 //aqui ficarão os app.user de cada model assim que as rotas forem criadas
 
 export default app;
