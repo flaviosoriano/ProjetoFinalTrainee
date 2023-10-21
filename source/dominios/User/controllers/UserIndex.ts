@@ -1,6 +1,5 @@
 import UserController from './UserController';
 import { Router, Request, Response, NextFunction } from 'express';
-import UserService from '../Services/UserService';
 
 const UserRouter = Router();
 
@@ -15,8 +14,36 @@ UserRouter.get('/',async (req: Request, res: Response, next: NextFunction) => {
 
 UserRouter.get('/create', async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await UserService.createUser(req.body);
-		res.json('Usuário criado com sucesso!');
+		await UserController.CreateUser(req.body);
+		res.json('User created successfully');
+	} catch (error) {
+		next(error);
+	}
+});
+
+UserRouter.get('/:email', async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const user = await UserController.getUserbyEmail(req.params.email);
+		res.json(user);
+	} catch (error) {
+		next(error);
+	}
+});
+
+UserRouter.get('/update/:id', async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const id = Number(req.params.id);
+		await UserController.UpdateUser(id, req.body);
+		res.json('User updated successfully');
+	} catch (error) {
+		next(error);
+	}
+});
+
+UserRouter.get('/delete/:email', async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		await UserController.Deleteuser(req.params.email);
+		res.json('User deleted successfully');
 	} catch (error) {
 		next(error);
 	}

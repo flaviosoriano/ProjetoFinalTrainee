@@ -15,9 +15,9 @@ class UserController{
 		}
 	}
 
-	async UpdateUser(body:User){
+	async UpdateUser(id:number, body:User){
 		try {
-			await UserService.updateUser(body);
+			await UserService.updateUser(id, body);
 		} catch (error) {
 			if (error instanceof ParametroInvalido) {
 				console.log(error.message);

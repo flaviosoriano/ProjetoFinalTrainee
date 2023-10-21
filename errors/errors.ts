@@ -4,4 +4,3 @@ export class ParametroInvalido extends Error{
 		this.name = 'ParametroInvalido';
 	}
 }
-
