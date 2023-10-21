@@ -8,7 +8,7 @@ class UserService{
 	async createUser(body:User) {
 		const exist = await this.getUserbyemail(body.email);
 		if(exist != null){
-			throw new ParametroInvalido('Erro: email ja cadastrado no sistema');
+			throw new ParametroInvalido('Error: email is already used');
 		}
 		else{
 			const user = await prisma.user.create({
@@ -51,12 +51,10 @@ class UserService{
 				email: wantedemail
 			},
 		});
-		if(user == null){
-			throw new ParametroInvalido('Error: given email is not assigned to any user');
-		}
-		else{
-			return user;
-		}
+		
+		//throw new ParametroInvalido('Error: given email is not assigned to any user');
+		return user;
+		
 	}
 
 	async getUsers(){
