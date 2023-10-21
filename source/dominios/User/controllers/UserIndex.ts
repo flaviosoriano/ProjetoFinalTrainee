@@ -15,7 +15,7 @@ UserRouter.get('/',async (req: Request, res: Response, next: NextFunction) => {
 UserRouter.get('/create', async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		await UserController.CreateUser(req.body);
-		res.json('Usuário criado com sucesso!');
+		res.json('User created successfully');
 	} catch (error) {
 		next(error);
 	}
@@ -29,4 +29,15 @@ UserRouter.get('/:email', async (req: Request, res: Response, next: NextFunction
 		next(error);
 	}
 });
+
+UserRouter.get('/update/:id', async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const id = Number(req.params.id);
+		await UserController.UpdateUser(id, req.body);
+		res.json('User updated successfully');
+	} catch (error) {
+		next(error);
+	}
+});
+
 export default UserRouter;

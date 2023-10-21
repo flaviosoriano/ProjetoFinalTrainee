@@ -24,8 +24,8 @@ class UserService{
 		}
 	}
 
-	async updateUser(body:User){
-		const resultado = this.getUserbyId(body.id);
+	async updateUser(id:number, body:User){
+		const resultado = this.getUserbyId(id);
 		if (resultado == null) {
 			throw new ParametroInvalido('Error: given Id is not assigned to any user');
 		}
@@ -39,7 +39,7 @@ class UserService{
 					role: body.role
 				},
 				where: {
-					id: body.id
+					id: id
 				}
 			});
 		}
