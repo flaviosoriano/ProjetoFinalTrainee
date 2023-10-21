@@ -25,6 +25,16 @@ class UserController{
 		}
 	}
 
+	async AddMusic(id: number, music_name: string){
+		try {
+			await UserService.AddMusic(id, music_name);
+		} catch (error) {
+			if (error instanceof ParametroInvalido) {
+				console.log(error.message);
+			}
+		}
+	}
+
 	async getUserbyEmail(wantedEmail: string){
 		try {
 			const user = await UserService.getUserbyemail(wantedEmail);
