@@ -30,7 +30,7 @@ model Artist {
 
 model Music {
   id        Int    @id @default(autoincrement())
-  name      String
+  name      String @unique
   genre     String
   album     String
   artist    Artist @relation(fields: [artistId], references: [id])
