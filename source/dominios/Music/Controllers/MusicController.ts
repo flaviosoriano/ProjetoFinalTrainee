@@ -1,6 +1,5 @@
 import { ParametroInvalido } from '../../../../errors/errors';
 import {Music} from '@prisma/client';
-import {Artist} from '@prisma/client';
 import MusicService from '../Services/MusicService';
 
 
@@ -27,9 +26,9 @@ class MusicController{
 		}
 	}
 
-	async getMusicbyArtist (wantedArtist: Artist){
+	async getMusicbyArtist (wantedArtistId: number){
 		try {
-			const music = MusicService.getMusicbyArtist(wantedArtist);
+			const music = MusicService.getMusicbyArtist(wantedArtistId);
 			return music;
 		} catch (error) {
 			if (error instanceof Error) {
