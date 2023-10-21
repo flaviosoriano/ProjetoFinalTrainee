@@ -1,6 +1,5 @@
 import UserController from './UserController';
 import { Router, Request, Response, NextFunction } from 'express';
-import UserService from '../Services/UserService';
 
 const UserRouter = Router();
 
@@ -15,11 +14,19 @@ UserRouter.get('/',async (req: Request, res: Response, next: NextFunction) => {
 
 UserRouter.get('/create', async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await UserService.createUser(req.body);
+		await UserController.CreateUser(req.body);
 		res.json('Usuário criado com sucesso!');
 	} catch (error) {
 		next(error);
 	}
 });
 
+UserRouter.get('/:email', async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const user = await UserController.getUserbyEmail(req.params.email);
+		res.json(user);
+	} catch (error) {
+		next(error);
+	}
+});
 export default UserRouter;
