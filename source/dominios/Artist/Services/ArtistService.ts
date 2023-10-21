@@ -15,26 +15,36 @@ class ArtistService {
 	}
 
 	async getArtistById(wantedId: number) {
-		try {
-			const Artist = await prisma.artist.findFirst({
-				where: {
-					id: wantedId
-				}
-			});
+		const Artist = await prisma.artist.findFirst({
+			where: {
+				id: wantedId
+			}
+		});
+		if (Artist == null) {
+			throw new ParametroInvalido('Error: Artist Id does not exist');
+		} else {
 			return Artist;
-		} catch (error) {
-			console.log('Error: artist id does not exist');
-		}
+		}	
 	}
 
 	async getArtists() {
-		
 		const Artist = await prisma.artist.findMany();
-		return Artist;
+		if (Artist == null) {
+			throw new ParametroInvalido('Error: no artist found.');
+		} else {
+			return Artist;
+		}
 	}
 
 	async update(wantedId: number, body: Artist) {
-		try {
+		const Artist = await prisma.artist.findFirst({
+			where: {
+				id: wantedId
+			}
+		});
+		if (Artist == null) {
+			throw new ParametroInvalido('Error: Artist Id does not exist');
+		} else {
 			await prisma.artist.update({
 				data: {
 					name: body.name,
@@ -45,20 +55,23 @@ class ArtistService {
 					id: wantedId
 				}
 			});
-		} catch (error) {
-			console.log('Error: artist id does not exist');
 		}
 	}
 
 	async delete (wantedId: number) {
-		try {
+		const Artist = await prisma.artist.findFirst({
+			where: {
+				id: wantedId
+			}
+		});
+		if (Artist == null) {
+			throw new ParametroInvalido('Error: Artist Id does not exist.');
+		} else {
 			await prisma.artist.delete({
 				where: {
 					id: wantedId
 				}
 			});
-		} catch (error) {
-			console.log('Error: artist id does not exist');
 		}
 	}
 
