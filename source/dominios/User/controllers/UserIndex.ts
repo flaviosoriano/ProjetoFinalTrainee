@@ -40,4 +40,13 @@ UserRouter.get('/update/:id', async (req: Request, res: Response, next: NextFunc
 	}
 });
 
+UserRouter.get('/delete/:email', async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		await UserController.Deleteuser(req.params.email);
+		res.json('User deleted successfully');
+	} catch (error) {
+		next(error);
+	}
+});
+
 export default UserRouter;
