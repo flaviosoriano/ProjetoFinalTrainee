@@ -1,5 +1,6 @@
 import prisma from '../../../../config/client';
 import {Artist} from '@prisma/client';
+import { ParametroInvalido } from '../../../../errors/errors';
 
 class ArtistService {
 
