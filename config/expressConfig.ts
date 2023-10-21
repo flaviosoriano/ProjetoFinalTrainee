@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express, {Express} from 'express';
 import cors, {CorsOptions} from 'cors';
 import UserRouter from '../source/dominios/User/controllers/UserIndex';
+import ArtistRouter from '../source/dominios/Artist/Controllers/ArtistIndex';
 
 dotenv.config();
 
