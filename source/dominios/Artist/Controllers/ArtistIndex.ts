@@ -6,7 +6,7 @@ const ArtistRouter = Router();
 ArtistRouter.post('/create', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		await ArtistController.create(req.body);
-		res.json('Artist creation completed successfully');
+		res.json('Artist created successfully');
 	} catch (error) {
 		next(error);
 	}

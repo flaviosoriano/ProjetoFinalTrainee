@@ -3,6 +3,7 @@ import express, {Express} from 'express';
 import cors, {CorsOptions} from 'cors';
 import UserRouter from '../source/dominios/User/controllers/UserIndex';
 import ArtistRouter from '../source/dominios/Artist/Controllers/ArtistIndex';
+import MusicRouter from '../source/dominios/Music/Controllers/MusicIndex';
 
 dotenv.config();
 
@@ -20,6 +21,6 @@ app.use(express.urlencoded({
 }));
 app.use('/api/users', UserRouter);
 app.use('/api/artists', ArtistRouter);
-//aqui ficarão os app.user de cada model assim que as rotas forem criadas
+app.use('/api/musics', MusicRouter);
 
 export default app;
