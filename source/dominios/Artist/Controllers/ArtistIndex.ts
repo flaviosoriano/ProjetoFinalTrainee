@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import ArtistController from './ArtistController';
 import { Router, Request, Response, NextFunction } from 'express';
 
@@ -7,7 +6,7 @@ const ArtistRouter = Router();
 ArtistRouter.post('/create', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		await ArtistController.create(req.body);
-        res.json('Artist creation completed successfully');
+		res.json('Artist creation completed successfully');
 	} catch (error) {
 		next(error);
 	}
@@ -24,7 +23,7 @@ ArtistRouter.get('/get', async (req: Request, res: Response, next: NextFunction)
 
 ArtistRouter.get('/get/:id', async (req: Request, res: Response, next: NextFunction) => {
 	try {
-        const id = Number(req.params.id);
+		const id = Number(req.params.id);
 		const artist = await ArtistController.getArtistbyId(id);
 		res.json(artist);
 	} catch (error) {
