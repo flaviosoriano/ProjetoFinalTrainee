@@ -9,7 +9,8 @@ class ArtistService {
 			data: {
 				name: body.name,
 				photo: body.photo,
-				num_streams: body.num_streams
+				num_streams: body.num_streams,
+				id: 0
 			}
 		});
 	}
