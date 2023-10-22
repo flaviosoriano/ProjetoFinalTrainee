@@ -4,7 +4,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 
 const MusicRouter = Router();
 
-MusicRouter.post('/create', async(req: Request, res:Response, next: NextFunction) => {
+MusicRouter.get('/create', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		await MusicController.create(req.body);
 		res.json('Music created successfully');
@@ -67,7 +67,7 @@ MusicRouter.get('/get', async(req: Request, res:Response, next: NextFunction) =>
 	}
 });
 
-MusicRouter.put('/update/:id', async(req: Request, res:Response, next: NextFunction) => {
+MusicRouter.get('/update/:id', async(req: Request, res:Response, next: NextFunction) => {
 	try {
         const id = Number(req.params.id);
         const body = req.body;
@@ -78,7 +78,7 @@ MusicRouter.put('/update/:id', async(req: Request, res:Response, next: NextFunct
 	}
 });
 
-MusicRouter.delete('/delete/:id', async(req: Request, res:Response, next: NextFunction) => {
+MusicRouter.get('/delete/:id', async(req: Request, res:Response, next: NextFunction) => {
 	try {
         const id = Number(req.params.id);
 		await MusicController.delete(id);

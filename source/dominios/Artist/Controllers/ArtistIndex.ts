@@ -3,7 +3,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 
 const ArtistRouter = Router();
 
-ArtistRouter.post('/create', async(req: Request, res:Response, next: NextFunction) => {
+ArtistRouter.get('/create', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		await ArtistController.create(req.body);
 		res.json('Artist created successfully');
@@ -31,7 +31,7 @@ ArtistRouter.get('/get/:id', async (req: Request, res: Response, next: NextFunct
 	}
 });
 
-ArtistRouter.put('/update/:id', async (req: Request, res: Response, next: NextFunction) => {
+ArtistRouter.get('/update/:id', async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const id = Number(req.params.id);
 		await ArtistController.update(id, req.body);
@@ -41,7 +41,7 @@ ArtistRouter.put('/update/:id', async (req: Request, res: Response, next: NextFu
 	}
 });
 
-ArtistRouter.delete('/delete/:id', async (req: Request, res: Response, next: NextFunction) => {
+ArtistRouter.get('/delete/:id', async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const id = Number(req.params.id);
 		await ArtistController.delete(id);
