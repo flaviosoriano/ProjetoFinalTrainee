@@ -67,7 +67,7 @@ MusicRouter.get('/get', async(req: Request, res:Response, next: NextFunction) =>
 	}
 });
 
-MusicRouter.get('/update/:id', async(req: Request, res:Response, next: NextFunction) => {
+MusicRouter.put('/update/:id', async(req: Request, res:Response, next: NextFunction) => {
 	try {
         const id = Number(req.params.id);
         const body = req.body;
@@ -78,7 +78,7 @@ MusicRouter.get('/update/:id', async(req: Request, res:Response, next: NextFunct
 	}
 });
 
-MusicRouter.get('/delete/:id', async(req: Request, res:Response, next: NextFunction) => {
+MusicRouter.delete('/delete/:id', async(req: Request, res:Response, next: NextFunction) => {
 	try {
         const id = Number(req.params.id);
 		await MusicController.delete(id);
