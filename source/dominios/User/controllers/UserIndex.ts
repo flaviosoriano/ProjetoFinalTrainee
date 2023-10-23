@@ -32,7 +32,7 @@ UserRouter.get('/:email', async (req: Request, res: Response, next: NextFunction
 	}
 });
 
-UserRouter.get('/update/:id', async (req: Request, res: Response, next: NextFunction) => {
+UserRouter.put('/update/:id', async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const id = Number(req.params.id);
 		await UserController.UpdateUser(id, req.body);
@@ -42,7 +42,7 @@ UserRouter.get('/update/:id', async (req: Request, res: Response, next: NextFunc
 	}
 });
 
-UserRouter.get('/delete/:email', async (req: Request, res: Response, next: NextFunction) => {
+UserRouter.delete('/delete/:email', async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		await UserController.Deleteuser(req.params.email);
 		res.json('User deleted successfully');

@@ -31,7 +31,7 @@ ArtistRouter.get('/get/:id', async (req: Request, res: Response, next: NextFunct
 	}
 });
 
-ArtistRouter.get('/update/:id', async (req: Request, res: Response, next: NextFunction) => {
+ArtistRouter.put('/update/:id', async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const id = Number(req.params.id);
 		await ArtistController.update(id, req.body);
@@ -41,7 +41,7 @@ ArtistRouter.get('/update/:id', async (req: Request, res: Response, next: NextFu
 	}
 });
 
-ArtistRouter.get('/delete/:id', async (req: Request, res: Response, next: NextFunction) => {
+ArtistRouter.delete('/delete/:id', async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const id = Number(req.params.id);
 		await ArtistController.delete(id);
