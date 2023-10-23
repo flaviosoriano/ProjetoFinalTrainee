@@ -37,19 +37,16 @@ class ArtistService {
 		}
 	}
 
-	async getArtistMusics(wantedId: number){
-		const artist1 = await prisma.artist.findFirst({
+	async getallArtistsMusics(){
+		const artist1 = await prisma.artist.findMany({
 			include: {
 				musics: true
-			},
-			where: {
-				id: wantedId
 			},
 		});
 		if (artist1 == null) {
 			throw new ParametroInvalido('Error: Artist Id does not exist');
 		} else {
-			return artist1.musics;
+			return artist1;
 		}	
 	}
 
