@@ -4,7 +4,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 
 const MusicRouter = Router();
 
-MusicRouter.get('/create', async(req: Request, res:Response, next: NextFunction) => {
+MusicRouter.post('/create', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		await MusicController.create(req.body);
 		res.json('Music created successfully');

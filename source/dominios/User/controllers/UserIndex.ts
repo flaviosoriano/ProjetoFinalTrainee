@@ -3,6 +3,15 @@ import { Router, Request, Response, NextFunction } from 'express';
 
 const UserRouter = Router();
 
+UserRouter.post('/create', async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		await UserController.CreateUser(req.body);
+		res.json('User created successfully');
+	} catch (error) {
+		next(error);
+	}
+});
+
 UserRouter.get('/',async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const users = await UserController.getusers();
@@ -12,14 +21,7 @@ UserRouter.get('/',async (req: Request, res: Response, next: NextFunction) => {
 	}
 });
 
-UserRouter.get('/create', async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		await UserController.CreateUser(req.body);
-		res.json('User created successfully');
-	} catch (error) {
-		next(error);
-	}
-});
+
 
 UserRouter.get('/:email', async (req: Request, res: Response, next: NextFunction) => {
 	try {

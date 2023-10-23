@@ -3,7 +3,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 
 const ArtistRouter = Router();
 
-ArtistRouter.get('/create', async(req: Request, res:Response, next: NextFunction) => {
+ArtistRouter.post('/create', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		await ArtistController.create(req.body);
 		res.json('Artist created successfully');

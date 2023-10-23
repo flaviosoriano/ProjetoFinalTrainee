@@ -7,7 +7,7 @@ class MusicController{
 	async create (body:Music) {
 		try {
 			await MusicService.create(body);
-			console.log('Artist created sucessfully');
+			console.log('Music created sucessfully');
 		} catch (error) {
 			if (error instanceof ParametroInvalido) {
 				console.log(error.message);

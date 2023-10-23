@@ -5,14 +5,14 @@ import { ParametroInvalido } from '../../../../errors/errors';
 class ArtistService {
 
 	async create(body:Artist) {
-		await prisma.artist.create({
+		const artist = await prisma.artist.create({
 			data: {
 				name: body.name,
 				photo: body.photo,
-				num_streams: body.num_streams,
-				id: body.id
+				num_streams: Number(body.num_streams)
 			}
 		});
+		return(artist);
 	}
 
 	async getArtistById(wantedId: number) {

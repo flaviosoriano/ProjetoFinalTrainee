@@ -11,7 +11,7 @@ class MusicService {
 				name: body.name,
 				genre: body.genre,
 				album: body.album,
-				artistId: body.artistId
+				artistId: Number(body.artistId)
 			}
 		});
 	}
