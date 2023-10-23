@@ -37,6 +37,17 @@ class ArtistController{
 		}
 	}
 
+	async getArtistMusics(wantedId: number){
+		try {
+			const musics = ArtistService.getArtistMusics(wantedId);
+			return musics;
+		} catch (error) {
+			if (error instanceof ParametroInvalido) {
+				console.log(error.message);
+			}
+		}
+	}
+
 	async update(wantedId: number, body: Artist){
 		try {
 			await ArtistService.update(wantedId,body);
