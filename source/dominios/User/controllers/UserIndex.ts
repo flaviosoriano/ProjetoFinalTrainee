@@ -12,7 +12,7 @@ UserRouter.post('/create', async (req: Request, res: Response, next: NextFunctio
 	}
 });
 
-UserRouter.get('/',async (req: Request, res: Response, next: NextFunction) => {
+UserRouter.get('/get',async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const users = await UserController.getusers();
 		res.json(users);
