@@ -2,6 +2,7 @@ import prisma from '../../../../config/client';
 import {Music} from '@prisma/client';
 import { ParametroInvalido } from '../../../../errors/errors';
 import ArtistService from '../../Artist/Services/ArtistService';
+import statusCodes from '../../../../utils/constants/statusCodes';
 
 class MusicService {
 
