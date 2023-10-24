@@ -2,8 +2,6 @@ import prisma from '../../../../config/client';
 import { ParametroInvalido } from '../../../../errors/errors';
 import {User} from '@prisma/client';
 import MusicController from '../../Music/Controllers/MusicController';
-import statusCodes from '../../../../utils/constants/statusCodes';
-
 
 class UserService{
 
