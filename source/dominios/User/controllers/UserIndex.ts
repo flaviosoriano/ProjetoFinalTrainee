@@ -5,8 +5,8 @@ const UserRouter = Router();
 
 UserRouter.post('/create', async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await UserController.CreateUser(req.body);
-		res.json('User created successfully');
+		const response = await UserController.CreateUser(req.body);
+		res.json(response);
 	} catch (error) {
 		next(error);
 	}
@@ -24,7 +24,7 @@ UserRouter.get('/get',async (req: Request, res: Response, next: NextFunction) =>
 
 
 
-UserRouter.get('/:email', async (req: Request, res: Response, next: NextFunction) => {
+UserRouter.get('/get/:email', async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const user = await UserController.getUserbyEmail(req.params.email);
 		res.json(user);

@@ -1,16 +1,16 @@
 import { User } from '@prisma/client';
 import UserService from '../Services/UserService';
-import { ParametroInvalido } from '../../../../errors/errors';
+import { InvalidParamError } from '../../../../errors/InvalidParamError';
 
 class UserController{
      
 	async CreateUser(body: User) {
 		try {
 			await UserService.createUser(body);
-			console.log('User created sucessfully');
+			return ('User created sucessfully');
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
-				console.log(error.message);
+			if (error instanceof InvalidParamError) {
+				return(error.message);
 			}
 		}
 	}
@@ -19,7 +19,7 @@ class UserController{
 		try {
 			await UserService.updateUser(id, body);
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
@@ -29,7 +29,7 @@ class UserController{
 		try {
 			await UserService.AddMusic(id, music_name);
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
@@ -40,7 +40,7 @@ class UserController{
 			const user = await UserService.getUserbyemail(wantedEmail);
 			return user;
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
@@ -62,7 +62,7 @@ class UserController{
 			await UserService.deleteUser(wantedEmail);
 			
 		}catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}

@@ -1,6 +1,6 @@
 import prisma from '../../../../config/client';
 import {Artist} from '@prisma/client';
-import { ParametroInvalido } from '../../../../errors/errors';
+import { InvalidParamError } from '../../../../errors/InvalidParamError';
 
 class ArtistService {
 
@@ -22,7 +22,7 @@ class ArtistService {
 			}
 		});
 		if (Artist == null) {
-			throw new ParametroInvalido('Error: Artist Id does not exist');
+			throw new InvalidParamError('Error: Artist Id does not exist');
 		} else {
 			return Artist;
 		}	
@@ -31,7 +31,7 @@ class ArtistService {
 	async getArtists() {
 		const Artist = await prisma.artist.findMany();
 		if (Artist == null) {
-			throw new ParametroInvalido('Error: no artist found.');
+			throw new InvalidParamError('Error: no artist found.');
 		} else {
 			return Artist;
 		}
@@ -44,7 +44,7 @@ class ArtistService {
 			},
 		});
 		if (artist1 == null) {
-			throw new ParametroInvalido('Error: Artist Id does not exist');
+			throw new InvalidParamError('Error: Artist Id does not exist');
 		} else {
 			return artist1;
 		}	
@@ -57,7 +57,7 @@ class ArtistService {
 			}
 		});
 		if (Artist == null) {
-			throw new ParametroInvalido('Error: Artist Id does not exist');
+			throw new InvalidParamError('Error: Artist Id does not exist');
 		} else {
 			await prisma.artist.update({
 				data: {
@@ -79,7 +79,7 @@ class ArtistService {
 			}
 		});
 		if (Artist == null) {
-			throw new ParametroInvalido('Error: Artist Id does not exist.');
+			throw new InvalidParamError('Error: Artist Id does not exist.');
 		} else {
 			await prisma.artist.delete({
 				where: {

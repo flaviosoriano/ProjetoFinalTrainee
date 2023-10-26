@@ -1,7 +1,6 @@
-import { ParametroInvalido } from '../../../../errors/errors';
 import {Artist} from '@prisma/client';
 import ArtistService from '../Services/ArtistService';
-
+import { InvalidParamError } from '../../../../errors/InvalidParamError';
 
 class ArtistController{
 	async create(body: Artist) {
@@ -9,7 +8,7 @@ class ArtistController{
 			await ArtistService.create(body);
 			console.log('Artist created sucessfully');
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
@@ -20,7 +19,7 @@ class ArtistController{
 			const artist = await ArtistService.getArtistById(wantedId);
 			return artist;
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
@@ -42,7 +41,7 @@ class ArtistController{
 			const musics = ArtistService.getallArtistsMusics();
 			return musics;
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
@@ -52,7 +51,7 @@ class ArtistController{
 		try {
 			await ArtistService.update(wantedId,body);
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
@@ -63,7 +62,7 @@ class ArtistController{
 			await ArtistService.delete(wantedId);
 			
 		}catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}

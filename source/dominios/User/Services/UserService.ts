@@ -1,14 +1,14 @@
 import prisma from '../../../../config/client';
-import { ParametroInvalido } from '../../../../errors/errors';
 import {User} from '@prisma/client';
 import MusicController from '../../Music/Controllers/MusicController';
+import { InvalidParamError } from '../../../../errors/InvalidParamError';
 
 class UserService{
 
 	async createUser(body:User) {
 		const exist = await this.getUserbyemail(body.email);
 		if(exist != null){
-			throw new ParametroInvalido('Error: email is already used');
+			throw new InvalidParamError('Error: email is already used');
 		}
 		else{
 			const user = await prisma.user.create({
@@ -27,7 +27,7 @@ class UserService{
 	async updateUser(id:number, body:User){
 		const resultado = this.getUserbyId(id);
 		if (resultado == null) {
-			throw new ParametroInvalido('Error: given Id is not assigned to any user');
+			throw new InvalidParamError('Error: given Id is not assigned to any user');
 		}
 		else{
 			await prisma.user.update({
@@ -83,7 +83,7 @@ class UserService{
 			}
 		});
 		if (deleteduser == null) {
-			throw new ParametroInvalido('Error: given email is not assigned to any user');
+			throw new InvalidParamError('Error: given email is not assigned to any user');
 		}
 		else{
 			return deleteduser;
@@ -93,7 +93,7 @@ class UserService{
 	async AddMusic(Userid: number, music_name: string){
 		const user = await this.getUserbyId(Userid);
 		if (user == null) {
-			throw new ParametroInvalido('Error: given Id is not assigned to any user');
+			throw new InvalidParamError('Error: given Id is not assigned to any user');
 		}
 		const music = await MusicController.getMusicbyName(music_name);
 		await prisma.user.update({

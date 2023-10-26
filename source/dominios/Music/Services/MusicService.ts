@@ -1,6 +1,6 @@
 import prisma from '../../../../config/client';
 import {Music} from '@prisma/client';
-import { ParametroInvalido } from '../../../../errors/errors';
+import { InvalidParamError } from '../../../../errors/InvalidParamError';
 import ArtistService from '../../Artist/Services/ArtistService';
 
 class MusicService {
@@ -23,7 +23,7 @@ class MusicService {
 			},
 		});
 		if (music == null) {
-			throw new ParametroInvalido('Error: music does not exist');
+			throw new InvalidParamError('Error: music does not exist');
 		}
 		else{
 			return music;
@@ -37,7 +37,7 @@ class MusicService {
 			}
 		});
 		if (Music==null) {
-			throw new ParametroInvalido('Error: music Id does not exist.');
+			throw new InvalidParamError('Error: music Id does not exist.');
 		} else {
 			return Music;
 		}
@@ -46,7 +46,7 @@ class MusicService {
 	async getMusicbyArtist (wantedArtistId: number) {
 		const Artist = await ArtistService.getArtistById(wantedArtistId);
 		if (Artist==null) {
-			throw new ParametroInvalido('Error: artist does not exist');
+			throw new InvalidParamError('Error: artist does not exist');
 		} else {
 			const Music = await prisma.music.findMany({
 				where:{
@@ -64,7 +64,7 @@ class MusicService {
 			}
 		});
 		if (Music == null) {
-			throw new ParametroInvalido('Error: album does not exist');
+			throw new InvalidParamError('Error: album does not exist');
 		} else {
 			return Music;
 		}	
@@ -77,7 +77,7 @@ class MusicService {
 			}
 		});
 		if (Music == null) {
-			throw new ParametroInvalido('Error: genre does not exist');
+			throw new InvalidParamError('Error: genre does not exist');
 		} else {
 			return Music;
 		}	
@@ -86,7 +86,7 @@ class MusicService {
 	async getMusics () {
 		const Music = await prisma.music.findMany();
 		if (Music == null) {
-			throw new ParametroInvalido('Error: no music found.');
+			throw new InvalidParamError('Error: no music found.');
 		} else {
 			return Music;
 		}		
@@ -99,7 +99,7 @@ class MusicService {
 			}
 		});
 		if (Music == null) {
-			throw new ParametroInvalido('Error: music Id does not exist.');
+			throw new InvalidParamError('Error: music Id does not exist.');
 		} else {
 			await prisma.music.update({
 				data: {
@@ -122,7 +122,7 @@ class MusicService {
 			}
 		});
 		if (Music == null) {
-			throw new ParametroInvalido('Error: music does not exist.');
+			throw new InvalidParamError('Error: music does not exist.');
 		} else {
 			await prisma.music.delete({
 				where:{

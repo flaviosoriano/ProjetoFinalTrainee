@@ -1,7 +1,6 @@
-import { ParametroInvalido } from '../../../../errors/errors';
 import {Music} from '@prisma/client';
 import MusicService from '../Services/MusicService';
-
+import { InvalidParamError } from '../../../../errors/InvalidParamError';
 
 class MusicController{
 	async create (body:Music) {
@@ -9,7 +8,7 @@ class MusicController{
 			await MusicService.create(body);
 			console.log('Music created sucessfully');
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
@@ -20,7 +19,7 @@ class MusicController{
 			const music = await MusicService.getMusicbyName(WantedName);
 			return music;
 		} catch (error) {
-			if(error instanceof ParametroInvalido){
+			if(error instanceof InvalidParamError){
 				console.log(error.message);
 			}
 		}
@@ -31,7 +30,7 @@ class MusicController{
 			const music = await MusicService.getMusicbyid(wantedId);
 			return music;
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
@@ -53,7 +52,7 @@ class MusicController{
 			const music = await MusicService.getMusicbyAlbum(wantedAlbum);
 			return music;
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
@@ -64,7 +63,7 @@ class MusicController{
 			const music = await MusicService.getMusicbyGenre(wantedGenre);
 			return music;
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
@@ -75,7 +74,7 @@ class MusicController{
 			const music = await MusicService.getMusics();
 			return music;
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
@@ -85,7 +84,7 @@ class MusicController{
 		try {
 			await MusicService.update(wantedId,body);
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
@@ -95,7 +94,7 @@ class MusicController{
 		try {
 			await MusicService.delete(wantedId);
 		} catch (error) {
-			if (error instanceof ParametroInvalido) {
+			if (error instanceof InvalidParamError) {
 				console.log(error.message);
 			}
 		}
