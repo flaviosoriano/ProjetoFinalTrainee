@@ -3,13 +3,14 @@ import ArtistService from '../Services/ArtistService';
 import { InvalidParamError } from '../../../../errors/InvalidParamError';
 
 class ArtistController{
+
 	async create(body: Artist) {
 		try {
 			await ArtistService.create(body);
-			console.log('Artist created sucessfully');
+			return('Artist created sucessfully');
 		} catch (error) {
 			if (error instanceof InvalidParamError) {
-				console.log(error.message);
+				return(error.message);
 			}
 		}
 	}
@@ -20,7 +21,7 @@ class ArtistController{
 			return artist;
 		} catch (error) {
 			if (error instanceof InvalidParamError) {
-				console.log(error.message);
+				return(error.message);
 			}
 		}
 	}
@@ -31,7 +32,7 @@ class ArtistController{
 			return artists;
 		} catch (error) {
 			if (error instanceof Error) {
-				console.log(error.message);
+				return(error.message);
 			}
 		}
 	}
@@ -42,7 +43,7 @@ class ArtistController{
 			return musics;
 		} catch (error) {
 			if (error instanceof InvalidParamError) {
-				console.log(error.message);
+				return(error.message);
 			}
 		}
 	}
@@ -52,7 +53,7 @@ class ArtistController{
 			await ArtistService.update(wantedId,body);
 		} catch (error) {
 			if (error instanceof InvalidParamError) {
-				console.log(error.message);
+				return(error.message);
 			}
 		}
 	}
@@ -60,13 +61,13 @@ class ArtistController{
 	async delete (wantedId: number){
 		try {
 			await ArtistService.delete(wantedId);
-			
-		}catch (error) {
+		} catch (error) {
 			if (error instanceof InvalidParamError) {
-				console.log(error.message);
+				return(error.message);
 			}
 		}
 	}
+
 }
 
 export default new ArtistController;
