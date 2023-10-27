@@ -1,6 +1,6 @@
 import prisma from '../../../../config/client';
 import {User} from '@prisma/client';
-import MusicController from '../../Music/Controllers/MusicController';
+import MusicService from '../../Music/Services/MusicService';
 import { InvalidParamError } from '../../../../errors/InvalidParamError';
 import { QueryError } from '../../../../errors/QueryError';
 import bcrypt from 'bcrypt';
@@ -109,7 +109,7 @@ class UserService{
 		if (user == null) {
 			throw new InvalidParamError('Error: given Id is not assigned to any user');
 		}
-		const music = await MusicController.getMusicbyName(music_name);
+		const music = await MusicService.getMusicbyName(music_name);
 		await prisma.user.update({
 			data: {
 				listend_musics:{
