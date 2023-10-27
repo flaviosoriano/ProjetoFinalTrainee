@@ -13,8 +13,8 @@ const options: CorsOptions = {
 	credentials: true,
 	origin: process.env.APP_URL
 };
-
 app.use(cors(options));
+
 app.use(express.json());
 app.use(express.urlencoded({
 	extended: true

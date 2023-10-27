@@ -21,9 +21,6 @@ UserRouter.get('/get',async (req: Request, res: Response, next: NextFunction) =>
 	}
 });
 
-
-
-
 UserRouter.get('/get/:email', async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const user = await UserController.getUserbyEmail(req.params.email);
