@@ -85,16 +85,16 @@ class ArtistService {
 			throw new QueryError('Artist Id does not exist.');
 		} else {
 			const music =  await MusicService.getMusicbyArtist(wantedId);
+			let i = 0;
+			while(music[i]!=null){
+				await MusicService.delete(music[i].id);
+				i++;
+			}
 			await prisma.artist.delete({
 				where: {
 					id: wantedId
 				}
 			});
-			let i = 0;
-			while(music!=null){
-				await MusicService.delete(music[i].id);
-				i++;
-			}
 		}
 	}
 
