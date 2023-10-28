@@ -1,13 +1,14 @@
 /* eslint-disable indent */
 import MusicService from '../Services/MusicService';
 import { Router, Request, Response, NextFunction } from 'express';
+import statusCodes from '../../../../utils/constants/statusCodes';
 
 const MusicRouter = Router();
 
 MusicRouter.post('/create', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		await MusicService.create(req.body);
-		res.json('Music created successfully');
+		res.status(statusCodes.CREATED).json('Music created successfully');
 	} catch (error) {
 		next(error);
 	}
@@ -16,7 +17,7 @@ MusicRouter.post('/create', async(req: Request, res:Response, next: NextFunction
 MusicRouter.get('/get/:name', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		const music = await MusicService.getMusicbyName(req.params.name);
-		res.json(music);
+		res.status(statusCodes.SUCCESS).json(music);
 	} catch (error) {
 		next(error);
 	}
@@ -25,7 +26,7 @@ MusicRouter.get('/get/:name', async(req: Request, res:Response, next: NextFuncti
 MusicRouter.get('/get/:id', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		const music = await MusicService.getMusicbyid(Number(req.params.id));
-		res.json(music);
+		res.status(statusCodes.SUCCESS).json(music);
 	} catch (error) {
 		next(error);
 	}
@@ -34,7 +35,7 @@ MusicRouter.get('/get/:id', async(req: Request, res:Response, next: NextFunction
 MusicRouter.get('/get/:artistId', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		const music = await MusicService.getMusicbyArtist(Number(req.params.artistId));
-		res.json(music);
+		res.status(statusCodes.SUCCESS).json(music);
 	} catch (error) {
 		next(error);
 	}
@@ -43,7 +44,7 @@ MusicRouter.get('/get/:artistId', async(req: Request, res:Response, next: NextFu
 MusicRouter.get('/get/:album', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		const music = await MusicService.getMusicbyAlbum(req.params.album);
-		res.json(music);
+		res.status(statusCodes.SUCCESS).json(music);
 	} catch (error) {
 		next(error);
 	}
@@ -52,7 +53,7 @@ MusicRouter.get('/get/:album', async(req: Request, res:Response, next: NextFunct
 MusicRouter.get('/get/:genre', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		const music = await MusicService.getMusicbyGenre(req.params.genre);
-		res.json(music);
+		res.status(statusCodes.SUCCESS).json(music);
 	} catch (error) {
 		next(error);
 	}
@@ -61,7 +62,7 @@ MusicRouter.get('/get/:genre', async(req: Request, res:Response, next: NextFunct
 MusicRouter.get('/get', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		const music = await MusicService.getMusics();
-		res.json(music);
+		res.status(statusCodes.SUCCESS).json(music);
 	} catch (error) {
 		next(error);
 	}
@@ -72,7 +73,7 @@ MusicRouter.put('/update/:id', async(req: Request, res:Response, next: NextFunct
         const id = Number(req.params.id);
         const body = req.body;
 		await MusicService.update(id,body);
-		res.json('Music updated successfully');
+		res.status(statusCodes.SUCCESS).json('Music updated successfully');
 	} catch (error) {
 		next(error);
 	}
@@ -82,7 +83,7 @@ MusicRouter.delete('/delete/:id', async(req: Request, res:Response, next: NextFu
 	try {
         const id = Number(req.params.id);
 		await MusicService.delete(id);
-		res.json('Music deleted successfully');
+		res.status(statusCodes.SUCCESS).json('Music deleted successfully');
 	} catch (error) {
 		next(error);
 	}

@@ -1,12 +1,13 @@
 import ArtistService from '../Services/ArtistService';
 import { Router, Request, Response, NextFunction } from 'express';
+import statusCodes from '../../../../utils/constants/statusCodes';
 
 const ArtistRouter = Router();
 
 ArtistRouter.post('/create', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		const response = await ArtistService.create(req.body);
-		res.json(response);
+		res.status(statusCodes.CREATED).json(response);
 	} catch (error) {
 		next(error);
 	}
@@ -15,7 +16,7 @@ ArtistRouter.post('/create', async(req: Request, res:Response, next: NextFunctio
 ArtistRouter.get('/get', async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const artists = await ArtistService.getArtists();
-		res.json(artists);
+		res.status(statusCodes.SUCCESS).json(artists);
 	} catch (error) {
 		next(error);
 	}
@@ -25,7 +26,7 @@ ArtistRouter.get('/get/:id', async (req: Request, res: Response, next: NextFunct
 	try {
 		const id = Number(req.params.id);
 		const artist = await ArtistService.getArtistById(id);
-		res.json(artist);
+		res.status(statusCodes.SUCCESS).json(artist);
 	} catch (error) {
 		next(error);
 	}
@@ -35,7 +36,7 @@ ArtistRouter.put('/update/:id', async (req: Request, res: Response, next: NextFu
 	try {
 		const id = Number(req.params.id);
 		const response = await ArtistService.update(id, req.body);
-		res.json(response);
+		res.status(statusCodes.SUCCESS).json(response);
 	} catch (error) {
 		next(error);
 	}
@@ -45,7 +46,7 @@ ArtistRouter.delete('/delete/:id', async (req: Request, res: Response, next: Nex
 	try {
 		const id = Number(req.params.id);
 		const response = await ArtistService.delete(id);
-		res.json(response);
+		res.status(statusCodes.SUCCESS).json(response);
 	} catch (error) {
 		next(error);
 	}
