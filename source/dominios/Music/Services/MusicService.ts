@@ -57,7 +57,7 @@ class MusicService {
 
 	async getMusicbyArtist (wantedArtistId: number) {
 		const Artist = await ArtistService.getArtistById(wantedArtistId);
-		if (Artist==null) {
+		if (!Artist) {
 			throw new QueryError('Artist does not exist');
 		} else {
 			const Music = await prisma.music.findMany({
