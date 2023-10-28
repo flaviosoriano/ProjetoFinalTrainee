@@ -4,20 +4,9 @@ import MusicService from '../../Music/Services/MusicService';
 import { InvalidParamError } from '../../../../errors/InvalidParamError';
 import { QueryError } from '../../../../errors/QueryError';
 import bcrypt from 'bcrypt';
+import isEmailValid from '../../../../utils/isEmailValid';
+import isURLValid from '../../../../utils/isUrlValid';
 
-function isEmailValid(email:string) {
-	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-	return emailPattern.test(email);
-}
-
-function isURLValid(url: string): boolean {
-	try {
-		new URL(url);
-		return true;
-	} catch (error) {
-		return false;
-	}
-}
 class UserService{
 
 	async encryptPassword(passaword:string) {
