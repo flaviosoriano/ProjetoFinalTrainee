@@ -34,7 +34,7 @@ UserRouter.put('/update/:id', async (req: Request, res: Response, next: NextFunc
 	try {
 		const id = Number(req.params.id);
 		await UserService.updateUser(id, req.body);
-		res.json('User updated successfully');
+		res.json('User updated successfully.');
 	} catch (error) {
 		next(error);
 	}
