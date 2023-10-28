@@ -2,7 +2,7 @@ import prisma from '../../../../config/client';
 import {Artist} from '@prisma/client';
 import { InvalidParamError } from '../../../../errors/InvalidParamError';
 import { QueryError } from '../../../../errors/QueryError';
-import isURLValid from '../../../../utils/isUrlValid';
+import isURLValid from '../../../../utils/constants/isURLValid';
 
 class ArtistService {
 
