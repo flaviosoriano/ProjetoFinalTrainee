@@ -3,6 +3,7 @@ import {Artist} from '@prisma/client';
 import { InvalidParamError } from '../../../../errors/InvalidParamError';
 import { QueryError } from '../../../../errors/QueryError';
 import isURLValid from '../../../../utils/constants/isURLValid';
+import MusicService from '../../Music/Services/MusicService';
 
 class ArtistService {
 
@@ -79,14 +80,16 @@ class ArtistService {
 	}
 
 	async delete (wantedId: number) {
-		const Artist = await prisma.artist.findFirst({
-			where: {
-				id: wantedId
-			}
-		});
-		if (Artist == null) {
+		const artist = await this.getArtistById(wantedId);
+		if (!artist) {
 			throw new QueryError('Artist Id does not exist.');
 		} else {
+			const music =  await MusicService.getMusicbyArtist(wantedId);
+			let i = 0;
+			while(music[i]!=null){
+				await MusicService.delete(music[i].id);
+				i++;
+			}
 			await prisma.artist.delete({
 				where: {
 					id: wantedId

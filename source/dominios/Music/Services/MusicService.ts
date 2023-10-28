@@ -9,11 +9,11 @@ class MusicService {
 
 	async create (body:Music) {
 		const artist = await ArtistService.getArtistById(body.id);
-		if (!body.name || body.name.trim()=='') {
+		if (!body.name || body.name=='') {
 			throw new QueryError('You did not define a name.');
-		} else if (!body.genre || body.genre.trim()=='') {
+		} else if (!body.genre || body.genre=='') {
 			throw new QueryError('You did not define a genre.');
-		} else if (!body.album || body.album.trim()=='') {
+		} else if (!body.album || body.album=='') {
 			throw new QueryError('You did not define a album.');
 		} else if (!artist) {
 			throw new QueryError('Artist id does not exist.');
@@ -43,7 +43,7 @@ class MusicService {
 	}
 
 	async getMusicbyid (wantedId: number) {
-		const Music = await prisma.music.findUniqueOrThrow({
+		const Music = await prisma.music.findFirst({
 			where:{
 				id: wantedId
 			}
@@ -57,7 +57,7 @@ class MusicService {
 
 	async getMusicbyArtist (wantedArtistId: number) {
 		const Artist = await ArtistService.getArtistById(wantedArtistId);
-		if (Artist==null) {
+		if (!Artist) {
 			throw new QueryError('Artist does not exist');
 		} else {
 			const Music = await prisma.music.findMany({

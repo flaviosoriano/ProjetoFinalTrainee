@@ -18,7 +18,7 @@ class UserService{
 	async createUser(body:User) {
 		const exist = await prisma.user.findFirst({where:{email:body.email}});
 		// Query Errors:
-		if (exist != null){
+		if (user != null){
 			throw new QueryError('Email is already in use.');
 		} else if (body.name == null || body.name.trim()=='') {
 			throw new QueryError('You did not define a name.');
@@ -52,6 +52,11 @@ class UserService{
 
 	async updateUser(id:number, body:User){
 		const user = await this.getUserbyId(id);
+		const user_sameEmail = await prisma.user.findFirst({
+			where:{
+				email: body.email
+			},
+		});
 		// Query Errors:
 		if (user == null) {
 			throw new QueryError('Given id is not assigned to any user.');
@@ -59,6 +64,8 @@ class UserService{
 			throw new QueryError('You can not change an ID.');
 		} else if (user.name == body.name && user.password == body.password && user.role == body.role && user.photo == body.photo && user.photo) {
 			throw new QueryError('You did not insert any data to update.');
+		} else if (body.email!=null && body.email!='' && user_sameEmail!=null && user.email!=body.email) {
+			throw new QueryError('Email is already in use.');
 		// Param Errors:
 		} else if (body.email!=null && isEmailValid(body.email)==false) {
 			throw new InvalidParamError('Your email is not valid.');
