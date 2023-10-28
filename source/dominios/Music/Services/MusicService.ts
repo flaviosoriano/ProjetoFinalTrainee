@@ -1,19 +1,32 @@
+/* eslint-disable indent */
 import prisma from '../../../../config/client';
 import {Music} from '@prisma/client';
-import { InvalidParamError } from '../../../../errors/InvalidParamError';
 import ArtistService from '../../Artist/Services/ArtistService';
+import { QueryError } from '../../../../errors/QueryError';
+import { InvalidParamError } from '../../../../errors/InvalidParamError';
 
 class MusicService {
 
 	async create (body:Music) {
-		await prisma.music.create({
-			data: {
-				name: body.name,
-				genre: body.genre,
-				album: body.album,
-				artistId: Number(body.artistId)
-			}
-		});
+		const artist = await ArtistService.getArtistById(body.id);
+		if (!body.name || body.name.trim()=='') {
+			throw new QueryError('You did not define a name.');
+		} else if (!body.genre || body.genre.trim()=='') {
+			throw new QueryError('You did not define a genre.');
+		} else if (!body.album || body.album.trim()=='') {
+			throw new QueryError('You did not define a album.');
+		} else if (!artist) {
+			throw new QueryError('Artist id does not exist.');
+		} else {
+			await prisma.music.create({
+				data: {
+					name: body.name,
+					genre: body.genre,
+					album: body.album,
+					artistId: Number(body.artistId)
+				}
+			});
+		}
 	}
 
 	async getMusicbyName(WantedName: string){
@@ -23,9 +36,8 @@ class MusicService {
 			},
 		});
 		if (music == null) {
-			throw new InvalidParamError('Error: music does not exist');
-		}
-		else{
+			throw new InvalidParamError('This music does not exist.');
+		} else {
 			return music;
 		}
 	}
@@ -37,7 +49,7 @@ class MusicService {
 			}
 		});
 		if (Music==null) {
-			throw new InvalidParamError('Error: music Id does not exist.');
+			throw new QueryError('Music id does not exist.');
 		} else {
 			return Music;
 		}
@@ -46,7 +58,7 @@ class MusicService {
 	async getMusicbyArtist (wantedArtistId: number) {
 		const Artist = await ArtistService.getArtistById(wantedArtistId);
 		if (Artist==null) {
-			throw new InvalidParamError('Error: artist does not exist');
+			throw new QueryError('Artist does not exist');
 		} else {
 			const Music = await prisma.music.findMany({
 				where:{
@@ -64,7 +76,7 @@ class MusicService {
 			}
 		});
 		if (Music == null) {
-			throw new InvalidParamError('Error: album does not exist');
+			throw new QueryError('Album does not exist');
 		} else {
 			return Music;
 		}	
@@ -77,7 +89,7 @@ class MusicService {
 			}
 		});
 		if (Music == null) {
-			throw new InvalidParamError('Error: genre does not exist');
+			throw new QueryError('Genre does not exist');
 		} else {
 			return Music;
 		}	
@@ -86,7 +98,7 @@ class MusicService {
 	async getMusics () {
 		const Music = await prisma.music.findMany();
 		if (Music == null) {
-			throw new InvalidParamError('Error: no music found.');
+			throw new QueryError('No music found.');
 		} else {
 			return Music;
 		}		
@@ -98,8 +110,15 @@ class MusicService {
 				id: wantedId
 			}
 		});
-		if (Music == null) {
-			throw new InvalidParamError('Error: music Id does not exist.');
+		const artist = await ArtistService.getArtistById(wantedId);
+		if (!Music) {
+			throw new QueryError('Music id does not exist.');
+		} else if (!artist) {
+			throw new QueryError('Artist id does not exist.');
+		} else if (Music.id != body.id && body.id != null) {
+			throw new QueryError('You can not change an ID.');
+		} else if (body.album==Music.album && body.artistId==Music.artistId && body.genre==Music.genre && body.name==Music.name) {
+			throw new QueryError('You did not insert any data to update.');
 		} else {
 			await prisma.music.update({
 				data: {
@@ -122,7 +141,7 @@ class MusicService {
 			}
 		});
 		if (Music == null) {
-			throw new InvalidParamError('Error: music does not exist.');
+			throw new QueryError('This music does not exist.');
 		} else {
 			await prisma.music.delete({
 				where:{
