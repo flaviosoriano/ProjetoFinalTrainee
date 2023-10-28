@@ -16,7 +16,7 @@ class UserService{
 	}
 
 	async createUser(body:User) {
-		const exist = await prisma.user.findFirst({where:{email:body.email}});
+		const user = await prisma.user.findFirst({where:{email:body.email}});
 		// Query Errors:
 		if (user != null){
 			throw new QueryError('Email is already in use.');

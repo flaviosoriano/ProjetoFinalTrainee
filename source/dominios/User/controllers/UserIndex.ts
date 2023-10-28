@@ -1,12 +1,12 @@
 import UserService from '../Services/UserService';
 import { Router, Request, Response, NextFunction } from 'express';
 import statusCodes from '../../../../utils/constants/statusCodes';
-import { LoginMid, verifyJWT } from '../../../middlewares/authentication';
+import { LoginMid, verifyJWT, NotLoggedin } from '../../../middlewares/authentication';
 
 
 const UserRouter = Router();
 
-UserRouter.post('/login', LoginMid);
+UserRouter.post('/login', NotLoggedin, LoginMid);
 
 /*UserRouter.post('/logout', async (req: Request, res: Response, next: NextFunction) => {
 
@@ -57,6 +57,6 @@ UserRouter.delete('/delete/:email', verifyJWT,
 		} catch (error) {
 			next(error);
 		}
-});
+	});
 
 export default UserRouter;

@@ -36,7 +36,7 @@ function cookieExtractor(req: Request) {
 	return token;
 }
 
-async function verifyJWT(req: Request, res: Response, next: NextFunction) {
+function verifyJWT(req: Request, res: Response, next: NextFunction) {
 	try {
 		const token = cookieExtractor(req);
 		if (token) {
@@ -44,9 +44,22 @@ async function verifyJWT(req: Request, res: Response, next: NextFunction) {
 			req.user = decoded.user;
 		}
 		if (req.user == null) {
-			throw new TokenError('Error: User must be logged in to do this');
+			throw new TokenError('User must be logged in to do this');
 		}
 		next();
+	} catch (error) {
+		next(error);
+	}
+}
+
+async function NotLoggedin(req: Request, res: Response, next: NextFunction) {
+	try {
+		const token = cookieExtractor(req);
+		if (token == null) {
+			next();
+		} else{
+			throw new LoginError('User already logged in');
+		}
 	} catch (error) {
 		next(error);
 	}
@@ -56,11 +69,11 @@ async function LoginMid(req: Request, res: Response, next: NextFunction) {
 	try {
 		const user = await UserService.getUserbyemail(req.body.email);
 		if (user == null) {
-			throw new LoginError('Error: given email or password is not correct');
+			throw new LoginError('given email or password is not correct');
 		} else{
 			const valid = await bcrypt.compare(req.body.password, user.password);
 			if(!valid){
-				throw new LoginError('Error: given email or password is not correct');
+				throw new LoginError('given email or password is not correct');
 			}
 		}
 		generateJWT(user, res);
@@ -71,4 +84,4 @@ async function LoginMid(req: Request, res: Response, next: NextFunction) {
 		next(error);
 	}
 }
-export {LoginMid, verifyJWT};
+export {LoginMid, verifyJWT, NotLoggedin};
