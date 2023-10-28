@@ -3,6 +3,14 @@ import { Router, Request, Response, NextFunction } from 'express';
 
 const UserRouter = Router();
 
+UserRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+
+});
+
+UserRouter.post('/logout', async (req: Request, res: Response, next: NextFunction) => {
+
+});
+
 UserRouter.post('/create', async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const response = await UserService.createUser(req.body);
