@@ -2,11 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import { LoginError } from '../../errors/LoginError';
 import UserService from '../dominios/User/Services/UserService';
 import bcrypt from 'bcrypt';
-import jwt, { Secret } from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { User } from '@prisma/client';
-import cookieParser from 'cookie-parser';
+import { TokenError } from '../../errors/TokenError';
+import statusCodes from '../../utils/constants/statusCodes';
 
-async function generateJWT(user: User, res: Response) {
+
+
+function generateJWT(user: User, res: Response) {
 	const body = {
 		id: user.id,
 		email: user.email,
@@ -14,16 +17,16 @@ async function generateJWT(user: User, res: Response) {
 		role: user.role
 	};
 
-	const token = jwt.sign({user: body}, process.env.SECRET_KEY as string, 
+	const token = jwt.sign({user: body}, process.env.SECRET_KEY, 
 		{expiresIn: process.env.JWT_EXPIRATION});
 	
 	res.cookie('twt', token, {
 		httpOnly: true,
-		secure: process.env.NODE_ENV !== 'development',
+		secure: false
 	});
 }
 
-async function cookieExtractor(req: Request) {
+function cookieExtractor(req: Request) {
 	let token = null;
 
 	if (req && req.cookies) {
@@ -35,12 +38,17 @@ async function cookieExtractor(req: Request) {
 
 async function verifyJWT(req: Request, res: Response, next: NextFunction) {
 	try {
-		const token = await cookieExtractor(req);
-		if (token != null) {
-			const decoded = jwt.verify(token, process.env.SECRET_KEY as string);
+		const token = cookieExtractor(req);
+		if (token) {
+			const decoded = jwt.verify(token, process.env.SECRET_KEY) as JwtPayload;
+			req.user = decoded.user;
 		}
+		if (req.user == null) {
+			throw new TokenError('Error: User must be logged in to do this');
+		}
+		next();
 	} catch (error) {
-		
+		next(error);
 	}
 }
 
@@ -55,8 +63,12 @@ async function LoginMid(req: Request, res: Response, next: NextFunction) {
 				throw new LoginError('Error: given email or password is not correct');
 			}
 		}
+		generateJWT(user, res);
+
+		res.status(statusCodes.NO_CONTENT).end();
 
 	} catch (error) {
-          
+		next(error);
 	}
 }
+export {LoginMid, verifyJWT};
