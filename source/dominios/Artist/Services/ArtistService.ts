@@ -2,12 +2,15 @@ import prisma from '../../../../config/client';
 import {Artist} from '@prisma/client';
 import { InvalidParamError } from '../../../../errors/InvalidParamError';
 import { QueryError } from '../../../../errors/QueryError';
+import isURLValid from '../../../../utils/isUrlValid';
 
 class ArtistService {
 
 	async create(body:Artist) {
 		if (body.name == null || body.name.trim()=='') {
 			throw new QueryError('You did not define a name.');
+		} else if(body.photo!=null && isURLValid(body.photo)==false) {
+			throw new InvalidParamError('Your photo url is not valid.');
 		} else {
 			const artist = await prisma.artist.create({
 				data: {
@@ -36,23 +39,10 @@ class ArtistService {
 	async getArtists() {
 		const Artist = await prisma.artist.findMany();
 		if (Artist == null) {
-			throw new InvalidParamError('Error: no artist found.');
+			throw new QueryError('Error: no artist found.');
 		} else {
 			return Artist;
 		}
-	}
-
-	async getallArtistsMusics(){
-		const artist1 = await prisma.artist.findMany({
-			include: {
-				musics: true
-			},
-		});
-		if (artist1 == null) {
-			throw new InvalidParamError('Error: Artist Id does not exist');
-		} else {
-			return artist1;
-		}	
 	}
 
 	async update(wantedId: number, body: Artist) {
@@ -71,6 +61,9 @@ class ArtistService {
 		} else if (body.name==Artist.name && body.num_streams==Artist.num_streams && body.photo==Artist.photo) {
 			throw new QueryError('No changes detected. Artist data remains unchanged');
 		// Param Errors:
+		} else if(body.photo!=null && isURLValid(body.photo)==false) {
+			throw new InvalidParamError('Your photo url is not valid.');
+		// No Errors:
 		} else {
 			await prisma.artist.update({
 				data: {
@@ -101,6 +94,19 @@ class ArtistService {
 			});
 		}
 	}
+
+	/*async getallArtistsMusics(){
+		const artist = await prisma.artist.findMany({
+			include: {
+				musics: true
+			},
+		});
+		if (artist == null) {
+			throw new InvalidParamError('Error: Artist Id does not exist');
+		} else {
+			return artist;
+		}	
+	}*/
 
 }
 
