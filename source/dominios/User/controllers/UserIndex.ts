@@ -4,7 +4,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 const UserRouter = Router();
 
 UserRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
-
+	
 });
 
 UserRouter.post('/logout', async (req: Request, res: Response, next: NextFunction) => {
