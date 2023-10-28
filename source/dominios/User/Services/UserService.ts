@@ -4,6 +4,8 @@ import MusicService from '../../Music/Services/MusicService';
 import { InvalidParamError } from '../../../../errors/InvalidParamError';
 import { QueryError } from '../../../../errors/QueryError';
 import bcrypt from 'bcrypt';
+import isEmailValid from '../../../../utils/isEmailValid';
+import isURLValid from '../../../../utils/isUrlValid';
 
 class UserService{
 
@@ -15,18 +17,30 @@ class UserService{
 
 	async createUser(body:User) {
 		const exist = await this.getUserbyemail(body.email);
-		if(exist != null){
-			throw new QueryError('Error: email is already used');
-		}
-		else{
-			const user = {
-				
+		// Query Errors:
+		if (exist != null){
+			throw new QueryError('Email is already in use.');
+		} else if (body.name == null || body.name.trim()=='') {
+			throw new QueryError('You did not define a name.');
+		} else if (body.password == null) {
+			throw new QueryError('You did not define a password.');
+		} else if (body.role == null ) {
+			throw new QueryError('You did not define a role.');
+		// Param Errors:
+		} else if (isEmailValid(body.email)==false) {
+			throw new InvalidParamError('Your email is not valid.');
+		} else if (body.photo!=null && isURLValid(body.photo)==false) {
+			throw new InvalidParamError('Your photo url is not valid.');
+		} else if (body.role!='ADM' && body.role!='USER') {
+			throw new InvalidParamError('Your role must be ADM or USER.');
+		// No errors:
+		} else {
+			const user = { 
 				name: body.name,
 				email: body.email,
 				password: body.password,
 				photo: body.photo,
 				role: body.role
-				
 			};
 			user.password = await this.encryptPassword(user.password);
 			await prisma.user.create({
@@ -37,26 +51,39 @@ class UserService{
 	}
 
 	async updateUser(id:number, body:User){
-		const resultado = this.getUserbyId(id);
-		if (resultado == null) {
-			throw new QueryError('Error: given Id is not assigned to any user');
-		}
-		if (body.password != null) {
-			body.password = await this.encryptPassword(body.password);
-		}
-		await prisma.user.update({
-			data: {
-				email: body.email,
-				name: body.name,
-				password: body.password,
-				photo: body.photo,
-				role: body.role
-			},
-			where: {
-				id: id
+		const user = await this.getUserbyId(id);
+		// Query Errors:
+		if (user == null) {
+			throw new QueryError('Given id is not assigned to any user.');
+		} else if (user.id != body.id && body.id != null) {
+			throw new QueryError('You can not change an ID.');
+		} else if (user.name == body.name && user.password == body.password && user.role == body.role && user.photo == body.photo && user.photo) {
+			throw new QueryError('You did not insert any data to update.');
+		// Param Errors:
+		} else if (body.email!=null && isEmailValid(body.email)==false) {
+			throw new InvalidParamError('Your email is not valid.');
+		} else if (body.photo!=null && isURLValid(body.photo)==false) {
+			throw new InvalidParamError('Your photo url is not valid.');
+		} else if (body.role!=null && body.role!='ADM' && body.role!='USER') {
+			throw new InvalidParamError('Your role must be ADM or USER.');
+		// No errors:
+		} else {
+			if (body.password != null) {
+				body.password = await this.encryptPassword(body.password);
 			}
-		});
-		
+			await prisma.user.update({
+				data: {
+					email: body.email,
+					name: body.name,
+					password: body.password,
+					photo: body.photo,
+					role: body.role
+				},
+				where: {
+					id: id
+				}
+			});
+		}
 	}
 
 	async getUserbyemail(wantedemail: string){
@@ -65,20 +92,18 @@ class UserService{
 				email: wantedemail
 			},
 		});
-		
-		//throw new ParametroInvalido('Error: given email is not assigned to any user');
-		return user;
-		
+		if (isEmailValid(wantedemail)==false) {
+			throw new InvalidParamError('This email is not valid.');
+		} else if (user==null) {
+			throw new QueryError('This email is not assigned to any user.');
+		} else {
+			return user;
+		}	
 	}
 
 	async getUsers(){
 		const user = await prisma.user.findMany();
-		if (user == null) {
-			throw new Error('No user found');
-		}
-		else{
-			return user;
-		}
+		return user;
 	}
 
 	async getUserbyId(wantedId: number){
@@ -87,29 +112,37 @@ class UserService{
 				id: wantedId
 			},
 		});
-		return user;
+		if (user==null) {
+			throw new QueryError('This id is not assigned to any user.');
+		} else {
+			return user;
+		}
 	}
 
 	async deleteUser(wantedemail: string){
-		const deleteduser = await prisma.user.delete({
+		const user = await prisma.user.delete({
 			where:{
 				email: wantedemail
 			}
 		});
-		if (deleteduser == null) {
-			throw new InvalidParamError('Error: given email is not assigned to any user');
-		}
-		else{
-			return deleteduser;
+		if (isEmailValid(wantedemail)==false) {
+			throw new InvalidParamError('This email is not valid.');
+		} else if (user==null) {
+			throw new QueryError('This email is not assigned to any user.');
+		} else {
+			return user;
 		}
 	}
 
 	async AddMusic(Userid: number, music_name: string){
 		const user = await this.getUserbyId(Userid);
 		if (user == null) {
-			throw new InvalidParamError('Error: given Id is not assigned to any user');
+			throw new QueryError('This id is not assigned to any user');
 		}
 		const music = await MusicService.getMusicbyName(music_name);
+		if (music == null) {
+			throw new QueryError('This music does not exist.');
+		}
 		await prisma.user.update({
 			data: {
 				listend_musics:{
