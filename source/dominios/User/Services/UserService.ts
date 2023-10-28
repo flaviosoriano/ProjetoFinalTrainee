@@ -4,8 +4,8 @@ import MusicService from '../../Music/Services/MusicService';
 import { InvalidParamError } from '../../../../errors/InvalidParamError';
 import { QueryError } from '../../../../errors/QueryError';
 import bcrypt from 'bcrypt';
-import isEmailValid from '../../../../utils/isEmailValid';
-import isURLValid from '../../../../utils/isUrlValid';
+import isEmailValid from '../../../../utils/constants/isEmailValid';
+import isURLValid from '../../../../utils/constants/isURLValid';
 
 class UserService{
 
