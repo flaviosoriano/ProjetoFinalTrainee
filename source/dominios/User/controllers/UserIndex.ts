@@ -1,14 +1,14 @@
 import UserService from '../Services/UserService';
 import { Router, Request, Response, NextFunction } from 'express';
 import statusCodes from '../../../../utils/constants/statusCodes';
+import { LoginMid, verifyJWT, NotLoggedin } from '../../../middlewares/authentication';
+
 
 const UserRouter = Router();
 
-/*UserRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
-	
-});
+UserRouter.post('/login', NotLoggedin, LoginMid);
 
-UserRouter.post('/logout', async (req: Request, res: Response, next: NextFunction) => {
+/*UserRouter.post('/logout', async (req: Request, res: Response, next: NextFunction) => {
 
 });*/
 
@@ -49,13 +49,14 @@ UserRouter.put('/update/:id', async (req: Request, res: Response, next: NextFunc
 	}
 });
 
-UserRouter.delete('/delete/:email', async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		await UserService.deleteUser(req.params.email);
-		res.status(statusCodes.SUCCESS).json('User deleted successfully');
-	} catch (error) {
-		next(error);
-	}
-});
+UserRouter.delete('/delete/:email', verifyJWT,
+	async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			await UserService.deleteUser(req.params.email);
+			res.status(statusCodes.SUCCESS).json('User deleted successfully');
+		} catch (error) {
+			next(error);
+		}
+	});
 
 export default UserRouter;
