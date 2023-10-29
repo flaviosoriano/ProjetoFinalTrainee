@@ -62,7 +62,7 @@ class ArtistService {
 		} else if (body.name==Artist.name && body.num_streams==Artist.num_streams && body.photo==Artist.photo) {
 			throw new QueryError('No changes detected. Artist data remains unchanged');
 		// Param Errors:
-		} else if(body.photo!=null && isURLValid(body.photo)==false) {
+		} else if (body.photo!=null && isURLValid(body.photo)==false) {
 			throw new InvalidParamError('Your photo url is not valid.');
 		// No Errors:
 		} else {
@@ -95,6 +95,7 @@ class ArtistService {
 					id: wantedId
 				}
 			});
+			return 0;
 		}
 	}
 
