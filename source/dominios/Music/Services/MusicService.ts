@@ -9,9 +9,16 @@ class MusicService {
 
 	async create (body:Music) {
 		const artist = await ArtistService.getArtistById(body.id);
+		const music_sameName = await prisma.music.findFirst({
+			where:{
+				name: body.name
+			},
+		});
 		if (!body.name || body.name=='') {
 			throw new QueryError('You did not define a name.');
-		} else if (!body.genre || body.genre=='') {
+		} else if (music_sameName!=null) {
+			throw new QueryError('This name already exists.');
+		}  else if (!body.genre || body.genre=='') {
 			throw new QueryError('You did not define a genre.');
 		} else if (!body.album || body.album=='') {
 			throw new QueryError('You did not define a album.');
@@ -35,7 +42,7 @@ class MusicService {
 				name: WantedName
 			},
 		});
-		if (music == null) {
+		if (!music) {
 			throw new InvalidParamError('This music does not exist.');
 		} else {
 			return music;
@@ -43,15 +50,15 @@ class MusicService {
 	}
 
 	async getMusicbyid (wantedId: number) {
-		const Music = await prisma.music.findFirst({
+		const music = await prisma.music.findFirst({
 			where:{
 				id: wantedId
 			}
 		});
-		if (Music==null) {
+		if (!music) {
 			throw new QueryError('Music id does not exist.');
 		} else {
-			return Music;
+			return music;
 		}
 	}
 
@@ -111,13 +118,16 @@ class MusicService {
 			}
 		});
 		const artist = await ArtistService.getArtistById(wantedId);
+		const music_sameName = await this.getMusicbyName(body.name);
 		if (!Music) {
 			throw new QueryError('Music id does not exist.');
 		} else if (!artist) {
 			throw new QueryError('Artist id does not exist.');
 		} else if (Music.id != body.id && body.id != null) {
 			throw new QueryError('You can not change an ID.');
-		} else if (body.album==Music.album && body.artistId==Music.artistId && body.genre==Music.genre && body.name==Music.name) {
+		} else if (music_sameName!=null) {
+			throw new QueryError('This name already exists.');
+		}else if (body.album==Music.album && body.artistId==Music.artistId && body.genre==Music.genre && body.name==Music.name) {
 			throw new QueryError('You did not insert any data to update.');
 		} else {
 			await prisma.music.update({
@@ -150,6 +160,7 @@ class MusicService {
 			});
 		}
 	}
+
 }
 
 export default new MusicService;

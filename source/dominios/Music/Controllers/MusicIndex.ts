@@ -14,7 +14,7 @@ MusicRouter.post('/create', async(req: Request, res:Response, next: NextFunction
 	}
 });
 
-MusicRouter.get('/get/:name', async(req: Request, res:Response, next: NextFunction) => {
+MusicRouter.get('/get/name/:name', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		const music = await MusicService.getMusicbyName(req.params.name);
 		res.status(statusCodes.SUCCESS).json(music);
@@ -23,7 +23,7 @@ MusicRouter.get('/get/:name', async(req: Request, res:Response, next: NextFuncti
 	}
 });
 
-MusicRouter.get('/get/:id', async(req: Request, res:Response, next: NextFunction) => {
+MusicRouter.get('/get/id/:id', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		const music = await MusicService.getMusicbyid(Number(req.params.id));
 		res.status(statusCodes.SUCCESS).json(music);
@@ -32,7 +32,7 @@ MusicRouter.get('/get/:id', async(req: Request, res:Response, next: NextFunction
 	}
 });
 
-MusicRouter.get('/get/:artistId', async(req: Request, res:Response, next: NextFunction) => {
+MusicRouter.get('/get/artist/:artistId', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		const music = await MusicService.getMusicbyArtist(Number(req.params.artistId));
 		res.status(statusCodes.SUCCESS).json(music);
@@ -41,7 +41,7 @@ MusicRouter.get('/get/:artistId', async(req: Request, res:Response, next: NextFu
 	}
 });
 
-MusicRouter.get('/get/:album', async(req: Request, res:Response, next: NextFunction) => {
+MusicRouter.get('/get/album/:album', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		const music = await MusicService.getMusicbyAlbum(req.params.album);
 		res.status(statusCodes.SUCCESS).json(music);
@@ -50,7 +50,7 @@ MusicRouter.get('/get/:album', async(req: Request, res:Response, next: NextFunct
 	}
 });
 
-MusicRouter.get('/get/:genre', async(req: Request, res:Response, next: NextFunction) => {
+MusicRouter.get('/get/genre/:genre', async(req: Request, res:Response, next: NextFunction) => {
 	try {
 		const music = await MusicService.getMusicbyGenre(req.params.genre);
 		res.status(statusCodes.SUCCESS).json(music);
