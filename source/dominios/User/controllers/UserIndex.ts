@@ -1,5 +1,5 @@
 import UserService from '../Services/UserService';
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response, NextFunction, response } from 'express';
 import statusCodes from '../../../../utils/constants/statusCodes';
 import { LoginMid, verifyJWT, NotLoggedin } from '../../../middlewares/authentication';
 
@@ -8,9 +8,14 @@ const UserRouter = Router();
 
 UserRouter.post('/login', NotLoggedin, LoginMid);
 
-/*UserRouter.post('/logout', async (req: Request, res: Response, next: NextFunction) => {
-
-});*/
+UserRouter.post('/logout', verifyJWT,  async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		res.clearCookie('jwt');
+		res.status(statusCodes.SUCCESS).json(response);
+	} catch (error) {
+		next(error);
+	}
+});
 
 UserRouter.post('/create', async (req: Request, res: Response, next: NextFunction) => {
 	try {
