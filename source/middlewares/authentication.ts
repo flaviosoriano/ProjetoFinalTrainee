@@ -84,4 +84,4 @@ async function LoginMid(req: Request, res: Response, next: NextFunction) {
 		next(error);
 	}
 }
-export {LoginMid, verifyJWT, NotLoggedin};
+export {cookieExtractor, LoginMid, verifyJWT, NotLoggedin};

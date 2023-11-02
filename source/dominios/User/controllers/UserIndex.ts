@@ -2,6 +2,7 @@ import UserService from '../Services/UserService';
 import { Router, Request, Response, NextFunction, response } from 'express';
 import statusCodes from '../../../../utils/constants/statusCodes';
 import { LoginMid, verifyJWT, NotLoggedin } from '../../../middlewares/authentication';
+import CheckRole from '../../../middlewares/checkRole';
 
 const UserRouter = Router();
 
@@ -26,7 +27,7 @@ UserRouter.post('/create', async (req: Request, res: Response, next: NextFunctio
 	}
 });
 
-UserRouter.get('/get', verifyJWT, 
+UserRouter.get('/get', CheckRole, 
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const users = await UserService.getUsers();
@@ -36,7 +37,7 @@ UserRouter.get('/get', verifyJWT,
 		}
 	});
 
-UserRouter.get('/get/:email', verifyJWT, 
+UserRouter.get('/get/:email', CheckRole, 
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const user = await UserService.getUserbyemail(req.params.email);
