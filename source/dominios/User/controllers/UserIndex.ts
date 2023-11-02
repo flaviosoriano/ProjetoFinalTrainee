@@ -47,6 +47,16 @@ UserRouter.get('/get/:email', CheckRole,
 		}
 	});
 
+UserRouter.get('/get/:id', CheckRole, 
+	async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const user = await UserService.getUserbyId(Number(req.params.id));
+			res.status(statusCodes.SUCCESS).json(user);
+		} catch (error) {
+			next(error);
+		}
+	});
+
 UserRouter.put('/update/:id', verifyJWT, 
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
