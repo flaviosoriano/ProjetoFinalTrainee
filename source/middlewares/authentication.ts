@@ -44,7 +44,7 @@ function verifyJWT(req: Request, res: Response, next: NextFunction) {
 			req.user = decoded.user;
 		}
 		if (req.user == null) {
-			throw new TokenError('User must be logged in to do this');
+			throw new TokenError('User must be logged in to do this.');
 		}
 		next();
 	} catch (error) {

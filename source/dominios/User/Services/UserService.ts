@@ -6,6 +6,7 @@ import { QueryError } from '../../../../errors/QueryError';
 import bcrypt from 'bcrypt';
 import isEmailValid from '../../../../utils/constants/isEmailValid';
 import isURLValid from '../../../../utils/constants/isURLValid';
+import Role from '../../../../utils/constants/Role';
 
 class UserService{
 
@@ -31,8 +32,8 @@ class UserService{
 			throw new InvalidParamError('Your email is not valid.');
 		} else if (body.photo!=null && isURLValid(body.photo)==false) {
 			throw new InvalidParamError('Your photo url is not valid.');
-		} else if (body.role!='ADM' && body.role!='USER') {
-			throw new InvalidParamError('Your role must be ADM or USER.');
+		} else if (body.role!=Role.USER && body.role!=null) {
+			throw new InvalidParamError('Your role must be USER.');
 		// No errors:
 		} else {
 			const user = { 
@@ -40,7 +41,7 @@ class UserService{
 				email: body.email,
 				password: body.password,
 				photo: body.photo,
-				role: body.role
+				role: Role.USER
 			};
 			user.password = await this.encryptPassword(user.password);
 			await prisma.user.create({
@@ -71,8 +72,8 @@ class UserService{
 			throw new InvalidParamError('Your email is not valid.');
 		} else if (body.photo!=null && isURLValid(body.photo)==false) {
 			throw new InvalidParamError('Your photo url is not valid.');
-		} else if (body.role!=null && body.role!='ADM' && body.role!='USER') {
-			throw new InvalidParamError('Your role must be ADM or USER.');
+		} else if (body.role!=null && body.role!=Role.USER) {
+			throw new InvalidParamError('Your role must be USER.');
 		// No errors:
 		} else {
 			if (body.password != null) {
@@ -84,7 +85,7 @@ class UserService{
 					name: body.name,
 					password: body.password,
 					photo: body.photo,
-					role: body.role
+					role: Role.USER
 				},
 				where: {
 					id: id
