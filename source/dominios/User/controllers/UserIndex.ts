@@ -17,15 +17,14 @@ UserRouter.post('/logout', verifyJWT,
 		}
 	});
 
-UserRouter.post('/create', verifyJWT, 
-	async (req: Request, res: Response, next: NextFunction) => {
-		try {
-			const response = await UserService.createUser(req.body);
-			res.status(statusCodes.CREATED).json(response);
-		} catch (error) {
-			next(error);
-		}
-	});
+UserRouter.post('/create', async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const response = await UserService.createUser(req.body);
+		res.status(statusCodes.CREATED).json(response);
+	} catch (error) {
+		next(error);
+	}
+});
 
 UserRouter.get('/get', verifyJWT, 
 	async (req: Request, res: Response, next: NextFunction) => {
