@@ -27,7 +27,7 @@ UserRouter.post('/create', async (req: Request, res: Response, next: NextFunctio
 	}
 });
 
-UserRouter.get('/get', CheckRole, 
+UserRouter.get('/get', verifyJWT, 
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const users = await UserService.getUsers();
@@ -37,7 +37,7 @@ UserRouter.get('/get', CheckRole,
 		}
 	});
 
-UserRouter.get('/get/:email', CheckRole, 
+UserRouter.get('/get/email/:email', verifyJWT, 
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const user = await UserService.getUserbyemail(req.params.email);
@@ -47,7 +47,7 @@ UserRouter.get('/get/:email', CheckRole,
 		}
 	});
 
-UserRouter.get('/get/:id', CheckRole, 
+UserRouter.get('/get/id/:id', verifyJWT, 
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const user = await UserService.getUserbyId(Number(req.params.id));
