@@ -44,7 +44,7 @@ function verifyJWT(req: Request, res: Response, next: NextFunction) {
 			req.user = decoded.user;
 		}
 		if (req.user == null) {
-			throw new TokenError('User must be logged in to do this.');
+			throw new TokenError('You must be logged in to do this.');
 		}
 		next();
 	} catch (error) {
@@ -58,7 +58,7 @@ async function NotLoggedin(req: Request, res: Response, next: NextFunction) {
 		if (token == null) {
 			next();
 		} else{
-			throw new LoginError('User already logged in.');
+			throw new LoginError('You are already logged in.');
 		}
 	} catch (error) {
 		next(error);
