@@ -3,7 +3,6 @@ import { Router, Request, Response, NextFunction, response } from 'express';
 import statusCodes from '../../../../utils/constants/statusCodes';
 import { LoginMid, verifyJWT, NotLoggedin } from '../../../middlewares/authentication';
 
-
 const UserRouter = Router();
 
 UserRouter.post('/login', NotLoggedin, LoginMid);
@@ -63,5 +62,6 @@ UserRouter.delete('/delete/:email', verifyJWT,
 			next(error);
 		}
 	});
+
 
 export default UserRouter;
