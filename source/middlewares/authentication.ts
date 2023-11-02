@@ -20,7 +20,7 @@ function generateJWT(user: User, res: Response) {
 	const token = jwt.sign({user: body}, process.env.SECRET_KEY, 
 		{expiresIn: process.env.JWT_EXPIRATION});
 	
-	res.cookie('twt', token, {
+	res.cookie('jwt', token, {
 		httpOnly: true,
 		secure: false
 	});
