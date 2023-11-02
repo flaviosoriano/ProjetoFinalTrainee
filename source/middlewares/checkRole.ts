@@ -1,5 +1,4 @@
 /* eslint-disable indent */
-import Role from '../../utils/constants/Role';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { cookieExtractor } from '../middlewares/authentication';
