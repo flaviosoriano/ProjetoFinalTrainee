@@ -2,7 +2,7 @@ import UserService from '../Services/UserService';
 import { Router, Request, Response, NextFunction, response } from 'express';
 import statusCodes from '../../../../utils/constants/statusCodes';
 import { LoginMid, verifyJWT, NotLoggedin } from '../../../middlewares/authentication';
-import CheckRole from '../../../middlewares/checkRole';
+//import CheckRole from '../../../middlewares/checkRole';
 
 const UserRouter = Router();
 

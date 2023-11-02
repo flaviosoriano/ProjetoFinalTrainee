@@ -94,7 +94,15 @@ class UserService{
 		}
 	}
 
+	async getUsers(){
+		const user = await prisma.user.findMany();
+		return user;
+	}
+
 	async getUserbyemail(wantedemail: string){
+		if (!wantedemail) {
+			throw new QueryError('You need to insert an email.');
+		}
 		const user = await prisma.user.findFirst({
 			where:{
 				email: wantedemail
@@ -102,19 +110,17 @@ class UserService{
 		});
 		if (isEmailValid(wantedemail)==false) {
 			throw new InvalidParamError('This email is not valid.');
-		} else if (user==null) {
+		} else if (!user) {
 			throw new QueryError('This email is not assigned to any user.');
 		} else {
 			return user;
-		}	
-	}
-
-	async getUsers(){
-		const user = await prisma.user.findMany();
-		return user;
+		}
 	}
 
 	async getUserbyId(wantedId: number){
+		if (!wantedId) {
+			throw new QueryError('You need to insert an id.');
+		}
 		const user = await prisma.user.findFirst({
 			where:{
 				id: wantedId
