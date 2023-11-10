@@ -3,10 +3,11 @@ import MusicService from '../Services/MusicService';
 import { Router, Request, Response, NextFunction } from 'express';
 import statusCodes from '../../../../utils/constants/statusCodes';
 import { verifyJWT } from '../../../middlewares/authentication';
+import CheckRole from '../../../middlewares/checkRole';
 
 const MusicRouter = Router();
 
-MusicRouter.post('/create', verifyJWT, 
+MusicRouter.post('/create', verifyJWT, CheckRole,
 	async(req: Request, res:Response, next: NextFunction) => {
 		try {
 			await MusicService.create(req.body);
@@ -16,7 +17,7 @@ MusicRouter.post('/create', verifyJWT,
 		}
 	});
 
-MusicRouter.get('/get/name/:name', verifyJWT,
+MusicRouter.get('/get/name/:name', verifyJWT, 
 	async(req: Request, res:Response, next: NextFunction) => {
 		try {
 			const music = await MusicService.getMusicbyName(req.params.name);
@@ -76,7 +77,7 @@ MusicRouter.get('/get', verifyJWT,
 		}
 	});
 
-MusicRouter.put('/update/:id', verifyJWT, 
+MusicRouter.put('/update/:id', verifyJWT, CheckRole,
 	async(req: Request, res:Response, next: NextFunction) => {
 		try {
 			const id = Number(req.params.id);
@@ -88,7 +89,7 @@ MusicRouter.put('/update/:id', verifyJWT,
 		}
 	});
 
-MusicRouter.delete('/delete/:id', verifyJWT, 
+MusicRouter.delete('/delete/:id', verifyJWT, CheckRole,
 	async(req: Request, res:Response, next: NextFunction) => {
 		try {
 			const id = Number(req.params.id);
