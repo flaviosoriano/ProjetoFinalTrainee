@@ -2,13 +2,14 @@ import UserService from '../Services/UserService';
 import { Router, Request, Response, NextFunction, response } from 'express';
 import statusCodes from '../../../../utils/constants/statusCodes';
 import { LoginMid, verifyJWT, NotLoggedin } from '../../../middlewares/authentication';
+import CheckRole from '../../../middlewares/checkRole';
 //import CheckRole from '../../../middlewares/checkRole';
 
 const UserRouter = Router();
 
 UserRouter.post('/login', NotLoggedin, LoginMid);
 
-UserRouter.post('/logout', verifyJWT, 
+UserRouter.post('/logout', verifyJWT,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			res.clearCookie('jwt');
@@ -57,7 +58,7 @@ UserRouter.get('/get/id/:id', verifyJWT,
 		}
 	});
 
-UserRouter.put('/update/:id', verifyJWT, 
+UserRouter.put('/update/:id', verifyJWT, CheckRole,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const id = Number(req.params.id);
@@ -68,7 +69,7 @@ UserRouter.put('/update/:id', verifyJWT,
 		}
 	});
 
-UserRouter.delete('/delete/:email', verifyJWT,
+UserRouter.delete('/delete/:email', verifyJWT, CheckRole,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			await UserService.deleteUser(req.params.email);

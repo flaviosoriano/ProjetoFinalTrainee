@@ -2,10 +2,11 @@ import ArtistService from '../Services/ArtistService';
 import { Router, Request, Response, NextFunction } from 'express';
 import statusCodes from '../../../../utils/constants/statusCodes';
 import { verifyJWT } from '../../../middlewares/authentication';
+import CheckRole from '../../../middlewares/checkRole';
 
 const ArtistRouter = Router();
 
-ArtistRouter.post('/create', verifyJWT,
+ArtistRouter.post('/create', verifyJWT, CheckRole,
 	async(req: Request, res:Response, next: NextFunction) => {
 		try {
 			const response = await ArtistService.create(req.body);
@@ -34,7 +35,7 @@ ArtistRouter.get('/get/:id', async (req: Request, res: Response, next: NextFunct
 	}
 });
 
-ArtistRouter.put('/update/:id', verifyJWT, 
+ArtistRouter.put('/update/:id', verifyJWT, CheckRole,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const id = Number(req.params.id);
@@ -45,7 +46,7 @@ ArtistRouter.put('/update/:id', verifyJWT,
 		}
 	});
 
-ArtistRouter.delete('/delete/:id', verifyJWT, 
+ArtistRouter.delete('/delete/:id', verifyJWT, CheckRole,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const id = Number(req.params.id);
