@@ -10,9 +10,9 @@ import Role from '../../../../utils/constants/Role';
 
 class UserService{
 
-	async encryptPassword(passaword:string) {
+	async encryptPassword(password:string) {
 		const salt = await bcrypt.genSalt(10);
-		const hash = await bcrypt.hash(passaword, salt);
+		const hash = await bcrypt.hash(password, salt);
 		return(hash);
 	}
 
