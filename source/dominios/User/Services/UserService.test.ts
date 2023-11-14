@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable indent */
-import UserService from './UserService';
-
 describe('getUserById', () => {
+  const UserService = require('./UserService');
   const User = require('@prisma/client');
     beforeEach(() => {
       jest.restoreAllMocks();
@@ -27,7 +26,7 @@ describe('getUserById', () => {
     describe('o id de um usuário é passado como parâmetro ==> retorna os dados não sensíveis do usuario', () => {
       test.each([
         { 
-          usuario:{name: 'jorge',password: 'abcd'}, 
+          usuario:{name: 'jorge', password: 'abcd'}, 
           retornoEsperado:{name: 'jorge', password:''}
         },
         { 
@@ -35,15 +34,15 @@ describe('getUserById', () => {
           retornoEsperado:{name: 'gabi', password:''}
         },
         { 
-          usuario:{name: 'gabriel',password: 'abcdefghijk'},
+          usuario:{name: 'gabriel', password: 'abcdefghijk'},
           retornoEsperado:{name: 'gabriel', password:''} 
         },
         { 
-          usuario:{name: 'bernardo',password: 'abc'}, 
+          usuario:{name: 'bernardo', password: 'abc'}, 
           retornoEsperado:{name: 'bernardo', password:''}
         },
         {
-          usuario:{name: 'vinicius',password: 'a'}, 
+          usuario:{name: 'vinicius', password: 'a'}, 
           retornoEsperado:{name: 'vinicius', password:''}
         },
       ]) ('%j', ({usuario, retornoEsperado}) => {
@@ -67,6 +66,7 @@ describe('getUserById', () => {
   });
 
 describe('getUserByEmail', () => {
+    const UserService = require('./UserService');
     const User = require('@prisma/client');
     
     beforeEach(() => {
