@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable indent */
+import UserService from './UserService';
+
 describe('getUserById', () => {
-    const userService = require('./UserService');
-    const User = require('../models/User');
-    
+  const User = require('@prisma/client');
     beforeEach(() => {
       jest.restoreAllMocks();
       jest.clearAllMocks();
@@ -17,7 +17,7 @@ describe('getUserById', () => {
         }
       ); 
 
-      await userService.getUserById(idUsuario);
+      await UserService.getUserbyId(idUsuario);
 
       expect(userFindFirstSpy).toHaveBeenCalledTimes(1);
       expect(userFindFirstSpy.mock.calls[0][0]).toBe(idUsuario);
@@ -51,7 +51,7 @@ describe('getUserById', () => {
           usuario.password='';
           }
         );
-        return expect(userService.getUserById(1)).resolves.toStrictEqual(retornoEsperado);
+        return expect(UserService.getUserbyId(1)).resolves.toStrictEqual(retornoEsperado);
       });
     });
     
@@ -61,32 +61,31 @@ describe('getUserById', () => {
       jest.spyOn(User,'findFirst').mockReturnValue(undefined);
   
       return expect(async () => {
-        await userService.getUserById(id);
+        await UserService.getUserbyId(id);
       }).rejects.toThrow(Error);
     });
   });
 
-/*describe('getUserByEmail', () => {
-    const userService = require('./UserService');
-    const User = require('../models/User');
+describe('getUserByEmail', () => {
+    const User = require('@prisma/client');
     
     beforeEach(() => {
         jest.restoreAllMocks();
         jest.clearAllMocks();
     });
   
-    test('o método recebe o id de um usuário ==> busca o usuário com o id informado', async () => {
-          const idUsuario = 1;
+    test('o método recebe o email de um usuário ==> busca o usuário com o email informado', async () => {
+          const emailUser = 'teste@hotmail.com';
           const userFindFirstSpy = jest.spyOn(User,'findFirst').mockImplementation(
             () => {
-              return {id: idUsuario};
+              return {email: emailUser};
             }
           ); 
   
-          await userService.getUserById(idUsuario);
+          await UserService.getUserbyemail(emailUser);
   
           expect(userFindFirstSpy).toHaveBeenCalledTimes(1);
-          expect(userFindFirstSpy.mock.calls[0][0]).toBe(idUsuario);
+          expect(userFindFirstSpy.mock.calls[0][0]).toBe(emailUser);
       }
   );
   
@@ -117,17 +116,17 @@ describe('getUserById', () => {
             usuario.password='';
             }
           );
-          return expect(userService.getUserById(1)).resolves.toStrictEqual(retornoEsperado);
+          return expect(UserService.getUserbyemail('teste@email.com')).resolves.toStrictEqual(retornoEsperado);
       });
     });
     
     test('o usuário não é encontrado ==> lança exceção', async () => {
-      const id = 1;
+      const email = 'teste@email.com';
       
       jest.spyOn(User,'findFirst').mockReturnValue(undefined);
   
       return expect(async () => {
-        await userService.getUserById(id);
-      }).rejects.toThrow(QueryError);
+        await UserService.getUserbyemail(email);
+      }).rejects.toThrow(Error);
     });
-});*/
+});
