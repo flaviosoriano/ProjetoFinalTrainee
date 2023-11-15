@@ -9,58 +9,70 @@ describe('getUserById', () => {
     });
   
     test('o método recebe o id de um usuário ==> busca o usuário com o id informado', async () => {
-      const idUsuario = 1;
-      const userFindFirstSpy = jest.spyOn(User,'findFirst').mockImplementation(
+      const userMock = {
+        name: 'userName',
+        email: 'user@email.com',
+        id: '1',
+        role: 'USER',
+        photo: null,
+      };
+      const FindFirstSpy = jest.spyOn(User,'findFirst').mockImplementation(
         () => {
-          return {id: idUsuario};
+          return {id: userMock.id};
         }
       ); 
 
-      await UserService.getUserbyId(idUsuario);
+      await UserService.getUserbyId(userMock.id);
 
-      expect(userFindFirstSpy).toHaveBeenCalledTimes(1);
-      expect(userFindFirstSpy.mock.calls[0][0]).toBe(idUsuario);
+      expect(FindFirstSpy).toHaveBeenCalledTimes(1);
+      expect(FindFirstSpy.mock.calls[0][0]).toBe(userMock.id);
       }
   );
   
     describe('o id de um usuário é passado como parâmetro ==> retorna os dados não sensíveis do usuario', () => {
       test.each([
         { 
-          usuario:{name: 'jorge', password: 'abcd'}, 
-          retornoEsperado:{name: 'jorge', password:''}
+          user:{name: 'jorge', password: 'abcd'}, 
+          expectedReturn:{name: 'jorge', password:''}
         },
         { 
-          usuario:{name: 'gabi', password: 'abcdefghashud'}, 
-          retornoEsperado:{name: 'gabi', password:''}
+          user:{name: 'gabi', password: 'abcdefghashud'}, 
+          expectedReturn:{name: 'gabi', password:''}
         },
         { 
-          usuario:{name: 'gabriel', password: 'abcdefghijk'},
-          retornoEsperado:{name: 'gabriel', password:''} 
+          user:{name: 'gabriel', password: 'abcdefghijk'},
+          expectedReturn:{name: 'gabriel', password:''} 
         },
         { 
-          usuario:{name: 'bernardo', password: 'abc'}, 
-          retornoEsperado:{name: 'bernardo', password:''}
+          user:{name: 'bernardo', password: 'abc'}, 
+          expectedReturn:{name: 'bernardo', password:''}
         },
         {
-          usuario:{name: 'vinicius', password: 'a'}, 
-          retornoEsperado:{name: 'vinicius', password:''}
+          user:{name: 'vinicius', password: 'a'}, 
+          expectedReturn:{name: 'vinicius', password:''}
         },
-      ]) ('%j', ({usuario, retornoEsperado}) => {
+      ]) ('%j', ({user, expectedReturn}) => {
         jest.spyOn(User,'findFirst').mockImplementation( () => {
-          usuario.password='';
+          user.password='';
           }
         );
-        return expect(UserService.getUserbyId(1)).resolves.toStrictEqual(retornoEsperado);
+        return expect(UserService.getUserbyId(1)).resolves.toStrictEqual(expectedReturn);
       });
     });
     
     test('o usuário não é encontrado ==> lança exceção', async () => {
-      const id = 1;
+      const userMock = {
+        name: 'userName',
+        email: 'user@email.com',
+        id: '1',
+        role: 'USER',
+        photo: null,
+      };
       
       jest.spyOn(User,'findFirst').mockReturnValue(undefined);
   
       return expect(async () => {
-        await UserService.getUserbyId(id);
+        await UserService.getUserbyId(userMock.id);
       }).rejects.toThrow(Error);
     });
   });
