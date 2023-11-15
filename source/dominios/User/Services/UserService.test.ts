@@ -130,3 +130,4 @@ describe('getUserByEmail', () => {
       }).rejects.toThrow(Error);
     });
 });
+
