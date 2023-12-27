@@ -1,7 +1,8 @@
-/* eslint-disable indent */
 import prisma from '../../../../config/client';
-import {Music} from '@prisma/client';
+
+import { Music } from '@prisma/client';
 import ArtistService from '../../Artist/Services/ArtistService';
+
 import { QueryError } from '../../../../errors/QueryError';
 import { InvalidParamError } from '../../../../errors/InvalidParamError';
 

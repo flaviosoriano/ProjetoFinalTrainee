@@ -1,9 +1,12 @@
 import prisma from '../../../../config/client';
-import {User} from '@prisma/client';
+import bcrypt from 'bcrypt';
+
+import { User } from '@prisma/client';
 import MusicService from '../../Music/Services/MusicService';
+
 import { InvalidParamError } from '../../../../errors/InvalidParamError';
 import { QueryError } from '../../../../errors/QueryError';
-import bcrypt from 'bcrypt';
+
 import isEmailValid from '../../../../utils/constants/isEmailValid';
 import isURLValid from '../../../../utils/constants/isURLValid';
 import Role from '../../../../utils/constants/Role';
